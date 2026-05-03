@@ -1,0 +1,148 @@
+<div class="confirmation-container">
+  <!-- Loading State -->
+  <div class="loading-state" *ngIf="isLoading()">
+    <div class="spinner"></div>
+    <p>Génération de votre confirmation...</p>
+  </div>
+
+  <!-- Confirmation Content -->
+  <div class="confirmation-content" *ngIf="!isLoading()">
+    <!-- Header -->
+    <header class="confirmation-header">
+      <div class="success-icon">✅</div>
+      <h1>Rendez-vous Confirmé!</h1>
+      <p>Votre rendez-vous a été enregistré avec succès</p>
+    </header>
+
+    <!-- Reference Number -->
+    <div class="reference-section">
+      <h2>Numéro de Référence</h2>
+      <div class="reference-number">{{ referenceNumber() }}</div>
+    </div>
+
+    <!-- Person Information (Top) -->
+    <section class="person-info-section">
+      <h2>👤 Informations Personnelles</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Nom complet:</span>
+          <span class="info-value">{{ personData()?.nom }} {{ personData()?.prenom }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Date de naissance:</span>
+          <span class="info-value">{{ personData()?.dateNaissance }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Lieu de naissance:</span>
+          <span class="info-value">{{ personData()?.lieuNaissance }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Sexe:</span>
+          <span class="info-value">{{ personData()?.sexe === 'M' ? 'Masculin' : 'Féminin' }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Téléphone:</span>
+          <span class="info-value">{{ personData()?.telephone }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Email:</span>
+          <span class="info-value">{{ personData()?.email }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Adresse:</span>
+          <span class="info-value">{{ personData()?.adresse }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Nationalité:</span>
+          <span class="info-value">{{ personData()?.nationalite }}</span>
+        </div>
+        <div class="info-item">
+          <span class="info-label">Profession:</span>
+          <span class="info-value">{{ personData()?.profession }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- QR Code Section -->
+    <section class="qr-section">
+      <h2>📱 Code QR de Confirmation</h2>
+      <div class="qr-container">
+        <img [src]="getQRCodeUrl()" alt="QR Code" class="qr-code" />
+        <div class="qr-instructions">
+          <p>Scannez ce code QR pour accéder rapidement à vos informations</p>
+          <p class="qr-note">Ce code contient toutes vos informations de rendez-vous</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Rendezvous Information (Bottom) -->
+    <section class="rendezvous-info-section">
+      <h2>📅 Détails du Rendez-vous</h2>
+      <div class="rendezvous-card">
+        <div class="rendezvous-item">
+          <span class="rendezvous-icon">📅</span>
+          <div class="rendezvous-content">
+            <h4>Date</h4>
+            <p>{{ formatDate(rendezvousData()?.date || '') }}</p>
+          </div>
+        </div>
+        <div class="rendezvous-item">
+          <span class="rendezvous-icon">🕐</span>
+          <div class="rendezvous-content">
+            <h4>Heure</h4>
+            <p>{{ rendezvousData()?.time }}</p>
+          </div>
+        </div>
+        <div class="rendezvous-item">
+          <span class="rendezvous-icon">🏢</span>
+          <div class="rendezvous-content">
+            <h4>Centre</h4>
+            <p>{{ rendezvousData()?.center?.name }}</p>
+            <p>{{ rendezvousData()?.center?.address }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Important Information -->
+    <section class="important-info">
+      <h2>ℹ️ Informations Importantes</h2>
+      <div class="info-cards">
+        <div class="info-card">
+          <span class="info-card-icon">📋</span>
+          <div class="info-card-content">
+            <h4>Documents requis</h4>
+            <p>Pièce d'identité originale et tous les documents soumis</p>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="info-card-icon">⏰</span>
+          <div class="info-card-content">
+            <h4>Présence</h4>
+            <p>Soyez présent 15 minutes avant l'heure du rendez-vous</p>
+          </div>
+        </div>
+        <div class="info-card">
+          <span class="info-card-icon">📱</span>
+          <div class="info-card-content">
+            <h4>Code QR</h4>
+            <p>Gardez ce code QR pour un accès rapide à vos informations</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <button class="btn-secondary" (click)="downloadQRCode()">
+        📥 Télécharger le QR Code
+      </button>
+      <button class="btn-secondary" (click)="printConfirmation()">
+        🖨️ Imprimer
+      </button>
+      <button class="btn-primary" (click)="goHome()">
+        🏠 Retour à l'accueil
+      </button>
+    </div>
+  </div>
+</div>

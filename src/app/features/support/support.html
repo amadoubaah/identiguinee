@@ -1,0 +1,279 @@
+<div class="support-container">
+  <header class="support-header">
+    <button class="back-btn" (click)="goToPortal()">← Retour au portail</button>
+    <h1>🎧 Support Client</h1>
+    <p>Centre d'aide citoyen - Nous sommes là pour vous assister</p>
+  </header>
+
+  <main class="support-main">
+    <!-- Contact Information -->
+    <section class="contact-section">
+      <div class="contact-grid">
+        <div class="contact-card primary">
+          <div class="contact-icon">📞</div>
+          <h3>Appel Téléphonique</h3>
+          <p>{{ contactInfo.phone }}</p>
+          <button class="contact-btn" (click)="callSupport()">Appeler maintenant</button>
+        </div>
+
+        <div class="contact-card secondary">
+          <div class="contact-icon">📧</div>
+          <h3>Email Support</h3>
+          <p>{{ contactInfo.email }}</p>
+          <button class="contact-btn" (click)="emailSupport()">Envoyer un email</button>
+        </div>
+
+        <div class="contact-card tertiary">
+          <div class="contact-icon">💬</div>
+          <h3>WhatsApp</h3>
+          <p>{{ contactInfo.whatsapp }}</p>
+          <button class="contact-btn" (click)="openWhatsApp()">Discuter sur WhatsApp</button>
+        </div>
+
+        <div class="contact-card">
+          <div class="contact-icon">📍</div>
+          <h3>Adresse</h3>
+          <p>{{ contactInfo.address }}</p>
+          <p class="hours">{{ contactInfo.hours }}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Processing Times -->
+    <section class="processing-section">
+      <div class="section-header">
+        <h2>⏱️ Délais de Traitement</h2>
+        <p>Informations sur les temps de traitement pour chaque service</p>
+      </div>
+      
+      <div class="processing-grid">
+        <div class="processing-card">
+          <h3>🆔 Carte Nationale d'Identité</h3>
+          <div class="time-options">
+            <div class="time-option">
+              <span class="option-label">Standard:</span>
+              <span class="option-time">{{ processingTimes.cni.standard }}</span>
+            </div>
+            <div class="time-option">
+              <span class="option-label">Urgent:</span>
+              <span class="option-time">{{ processingTimes.cni.urgent }}</span>
+            </div>
+            <div class="time-option">
+              <span class="option-label">Express:</span>
+              <span class="option-time">{{ processingTimes.cni.express }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="processing-card">
+          <h3>📋 Acte de Naissance</h3>
+          <div class="time-options">
+            <div class="time-option">
+              <span class="option-label">Standard:</span>
+              <span class="option-time">{{ processingTimes.birthCertificate.standard }}</span>
+            </div>
+            <div class="time-option">
+              <span class="option-label">Urgent:</span>
+              <span class="option-time">{{ processingTimes.birthCertificate.urgent }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="processing-card">
+          <h3>🔄 Renouvellement CNI</h3>
+          <div class="time-options">
+            <div class="time-option">
+              <span class="option-label">Standard:</span>
+              <span class="option-time">{{ processingTimes.renewal.standard }}</span>
+            </div>
+            <div class="time-option">
+              <span class="option-label">Urgent:</span>
+              <span class="option-time">{{ processingTimes.renewal.urgent }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Required Documents -->
+    <section class="documents-section">
+      <div class="section-header">
+        <h2>📄 Documents Requis</h2>
+        <p>Liste des documents nécessaires pour chaque demande</p>
+      </div>
+      
+      <div class="documents-grid">
+        <div class="document-card">
+          <h3>🆔 Demande CNI</h3>
+          <ul class="document-list">
+            <li *ngFor="let doc of requiredDocuments.cni">{{ doc }}</li>
+          </ul>
+        </div>
+
+        <div class="document-card">
+          <h3>🔄 Renouvellement CNI</h3>
+          <ul class="document-list">
+            <li *ngFor="let doc of requiredDocuments.renewal">{{ doc }}</li>
+          </ul>
+        </div>
+
+        <div class="document-card">
+          <h3>📋 Acte de Naissance</h3>
+          <ul class="document-list">
+            <li *ngFor="let doc of requiredDocuments.birthCertificate">{{ doc }}</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- CNI Renewal -->
+    <section class="renewal-section">
+      <div class="renewal-card">
+        <h2>🔄 Renouvellement de CNI</h2>
+        <p>Renouvelez votre carte d'identité avant l'expiration pour éviter les interruptions</p>
+        
+        <div class="renewal-info">
+          <div class="info-item">
+            <span class="info-icon">⏰</span>
+            <div class="info-content">
+              <h4>Quand renouveler ?</h4>
+              <p>30 jours avant l'expiration de votre CNI actuelle</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">📋</span>
+            <div class="info-content">
+              <h4>Documents nécessaires</h4>
+              <p>Ancienne CNI, acte de naissance, photo récente, justificatif de domicile</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">⚡</span>
+            <div class="info-content">
+              <h4>Avantages</h4>
+              <p>Processus simplifié, conservation de votre numéro, traitement prioritaire</p>
+            </div>
+          </div>
+        </div>
+        
+        <button class="renewal-btn" (click)="goToRenewal()">
+          🔄 Démarrer le renouvellement
+        </button>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="faq-section">
+      <div class="section-header">
+        <h2>❓ Questions Fréquemment Posées</h2>
+        <p>Trouvez des réponses rapides à vos questions</p>
+      </div>
+      
+      <div class="faq-list">
+        <div class="faq-item" *ngFor="let item of faqItems(); let i = index">
+          <div class="faq-question" (click)="toggleFAQ(i)">
+            <h4>{{ item.question }}</h4>
+            <span class="faq-toggle" [class.expanded]="item.expanded">▼</span>
+          </div>
+          <div class="faq-answer" [class.expanded]="item.expanded">
+            <p>{{ item.answer }}</p>
+            <div class="faq-category">
+              <span class="category-tag">{{ item.category }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section class="contact-form-section">
+      <div class="form-card">
+        <h2>📝 Formulaire de Contact</h2>
+        <p>Envoyez-nous votre demande et nous vous répondrons dans les 24 heures</p>
+        
+        <form class="support-form" (ngSubmit)="submitSupportForm(form.value)" #form="ngForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="name">Nom complet *</label>
+              <input type="text" id="name" name="name" required ngModel>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email *</label>
+              <input type="email" id="email" name="email" required ngModel>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Téléphone</label>
+              <input type="tel" id="phone" name="phone" ngModel>
+            </div>
+            
+            <div class="form-group">
+              <label for="subject">Sujet *</label>
+              <select id="subject" name="subject" required ngModel>
+                <option value="">Sélectionnez un sujet</option>
+                <option value="cni">Demande de CNI</option>
+                <option value="renewal">Renouvellement CNI</option>
+                <option value="birth-certificate">Acte de naissance</option>
+                <option value="verification">Vérification de document</option>
+                <option value="technical">Problème technique</option>
+                <option value="other">Autre</option>
+              </select>
+            </div>
+            
+            <div class="form-group full-width">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="5" required ngModel></textarea>
+            </div>
+          </div>
+          
+          <button type="submit" class="submit-btn">
+            📤 Envoyer la demande
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- Chat Widget -->
+  <div class="chat-widget" [class.open]="isChatOpen()">
+    <div class="chat-header" (click)="toggleChat()">
+      <div class="chat-title">
+        <span class="chat-icon">💬</span>
+        <span>Chat en direct</span>
+      </div>
+      <span class="chat-status">En ligne</span>
+    </div>
+    
+    <div class="chat-body" *ngIf="isChatOpen()">
+      <div class="chat-messages">
+        <div class="message" *ngFor="let msg of chatMessages()" [class.user]="msg.sender === 'user'" [class.support]="msg.sender === 'support'">
+          <div class="message-content">
+            <p>{{ msg.message }}</p>
+            <span class="message-time">{{ msg.time }}</span>
+          </div>
+        </div>
+        
+        <div class="typing-indicator" *ngIf="isTyping()">
+          <span class="typing-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </div>
+      </div>
+      
+      <div class="chat-input">
+        <input 
+          type="text" 
+          placeholder="Tapez votre message..." 
+          [(ngModel)]="currentMessage"
+          (keyup.enter)="sendMessage()"
+        >
+        <button class="send-btn" (click)="sendMessage()">
+          📤
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

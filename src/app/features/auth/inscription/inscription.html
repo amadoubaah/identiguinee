@@ -1,0 +1,106 @@
+<app-navbar></app-navbar>
+
+<section class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Inscription</h2>
+      <p>Créez votre compte IdentiGuinée</p>
+    </div>
+
+    <form class="auth-form" (ngSubmit)="onSubmit()">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="nom">Nom</label>
+          <input 
+            type="text" 
+            id="nom" 
+            name="nom" 
+            [(ngModel)]="nom"
+            placeholder="Diallo"
+            required
+          >
+        </div>
+        <div class="form-group">
+          <label for="prenoms">Prénoms</label>
+          <input 
+            type="text" 
+            id="prenoms" 
+            name="prenoms" 
+            [(ngModel)]="prenoms"
+            placeholder="Mamadou"
+            required
+          >
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          [(ngModel)]="email"
+          placeholder="votre@email.com"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="telephone">Téléphone</label>
+        <input 
+          type="tel" 
+          id="telephone" 
+          name="telephone" 
+          [(ngModel)]="telephone"
+          placeholder="+224 620 00 00 00"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirmer le mot de passe</label>
+        <input 
+          type="password" 
+          id="confirmPassword" 
+          name="confirmPassword" 
+          [(ngModel)]="confirmPassword"
+          placeholder="••••••••"
+          required
+        >
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox">
+          <input type="checkbox" required>
+          <span>J'accepte les conditions d'utilisation</span>
+        </label>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="auth-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">S'inscrire</span>
+        <span *ngIf="isLoading">Inscription en cours...</span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Déjà un compte ?</p>
+      <button class="link-btn" (click)="goToConnexion()">Se connecter</button>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,157 @@
+<app-navbar></app-navbar>
+
+<section class="passeport-container">
+  <div class="passeport-header">
+    <button class="back-btn" (click)="goBack()">← Retour</button>
+    <h1>Demande de Passeport</h1>
+    <p>Formulaire de demande de passeport biométrique guinéen</p>
+  </div>
+
+  <form class="passeport-form" (ngSubmit)="onSubmit()">
+    
+    <!-- Type de passeport et délai -->
+    <div class="form-section">
+      <h2>Type de passeport</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Type de passeport *</label>
+          <select name="typePasseport" [(ngModel)]="typePasseport" required>
+            <option value="standard">Standard</option>
+            <option value="diplomatique">Diplomatique</option>
+            <option value="service">Service</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Délai de traitement *</label>
+          <select name="delai" [(ngModel)]="delai" required>
+            <option value="normal">10 ans - Standard</option>
+            <option value="urgent">5 ans - Standard</option>
+            <option value="express">2 ans - Express EUR/GNF</option>
+          </select>
+        </div>
+      </div>
+      <div class="price-display">
+        <strong>Prix: {{ calculerPrix() | number }} GNF ({{ getDelaiText() }})</strong>
+        <small *ngIf="delai === 'express'" class="express-info">
+          🚀 Option Express avec paiement en EUR/GNF accepté - Délai 2 minutes
+        </small>
+      </div>
+    </div>
+
+    <!-- Informations personnelles -->
+    <div class="form-section">
+      <h2>Informations personnelles</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom *</label>
+          <input type="text" name="nom" [(ngModel)]="nom" placeholder="Diallo" required>
+        </div>
+        <div class="form-group">
+          <label>Prénoms *</label>
+          <input type="text" name="prenoms" [(ngModel)]="prenoms" placeholder="Mamadou" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date de naissance *</label>
+          <input type="date" name="dateNaissance" [(ngModel)]="dateNaissance" required>
+        </div>
+        <div class="form-group">
+          <label>Lieu de naissance *</label>
+          <input type="text" name="lieuNaissance" [(ngModel)]="lieuNaissance" placeholder="Conakry" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nationalité *</label>
+          <select name="nationalite" [(ngModel)]="nationalite" required>
+            <option value="guineenne">Guinéenne</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Profession *</label>
+          <input type="text" name="profession" [(ngModel)]="profession" placeholder="Ingénieur" required>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coordonnées -->
+    <div class="form-section">
+      <h2>Coordonnées</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Téléphone *</label>
+          <input type="tel" name="telephone" [(ngModel)]="telephone" placeholder="+224 620 00 00 00" required>
+        </div>
+        <div class="form-group">
+          <label>Email *</label>
+          <input type="email" name="email" [(ngModel)]="email" placeholder="votre@email.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Adresse complète *</label>
+        <input type="text" name="adresse" [(ngModel)]="adresse" placeholder="Rue, Quartier, Commune, Conakry" required>
+      </div>
+    </div>
+
+    <!-- Détails du voyage -->
+    <div class="form-section">
+      <h2>Détails du voyage</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Motif du voyage *</label>
+          <select name="motifVoyage" [(ngModel)]="motifVoyage" required>
+            <option value="">Sélectionner...</option>
+            <option value="tourisme">Tourisme</option>
+            <option value="affaires">Affaires</option>
+            <option value="etudes">Études</option>
+            <option value="medical">Médical</option>
+            <option value="familial">Familial</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Pays de destination *</label>
+          <input type="text" name="paysDestination" [(ngModel)]="paysDestination" placeholder="France" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Date de départ *</label>
+          <input type="date" name="dateDepart" [(ngModel)]="dateDepart" required>
+        </div>
+        <div class="form-group">
+          <label>Date de retour</label>
+          <input type="date" name="dateRetour" [(ngModel)]="dateRetour">
+        </div>
+      </div>
+    </div>
+
+    <!-- Personne à contacter en cas d'urgence -->
+    <div class="form-section">
+      <h2>Personne à contacter en cas d'urgence</h2>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nom *</label>
+          <input type="text" name="urgenceNom" [(ngModel)]="urgenceNom" placeholder="Fatoumata Diallo" required>
+        </div>
+        <div class="form-group">
+          <label>Téléphone *</label>
+          <input type="tel" name="urgenceTelephone" [(ngModel)]="urgenceTelephone" placeholder="+224 620 00 00 00" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="error-message" *ngIf="errorMessage">
+      {{ errorMessage }}
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="submit-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Soumettre la demande</span>
+        <span *ngIf="isLoading">Traitement en cours...</span>
+      </button>
+    </div>
+  </form>
+</section>

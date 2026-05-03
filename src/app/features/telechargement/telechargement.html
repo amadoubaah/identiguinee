@@ -1,0 +1,206 @@
+<div class="download-container">
+  <header class="download-header">
+    <div class="header-content">
+      <button class="back-btn" onclick="history.back()">← Retour</button>
+      <h1>Téléchargement de Document</h1>
+    </div>
+  </header>
+
+  <main class="download-main">
+    <section class="document-preview">
+      <div class="document-card">
+        <div class="card-header">
+          <div class="document-type">CARTE NATIONALE D'IDENTITÉ</div>
+          <div class="country">RÉPUBLIQUE DE GUINÉE</div>
+        </div>
+        
+        <div class="card-body">
+          <div class="photo-section">
+            <div class="photo-placeholder">👤</div>
+            <div class="biometric-info">
+              <div class="fingerprint">👆</div>
+            </div>
+          </div>
+          
+          <div class="personal-info">
+            <h2 class="name">Mamadou Diallo</h2>
+            <div class="info-grid">
+              <div class="info-item">
+                <span class="label">Date de naissance:</span>
+                <span class="value">14/03/1995</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Lieu de naissance:</span>
+                <span class="value">Conakry</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Sexe:</span>
+                <span class="value">Masculin</span>
+              </div>
+              <div class="info-item">
+                <span class="label">Taille:</span>
+                <span class="value">175 cm</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card-footer">
+          <div class="document-number">
+            <span class="label">Numéro du document:</span>
+            <span class="value">{{ documentData()['id'] }}</span>
+          </div>
+          <div class="validity">
+            <span class="label">Validité:</span>
+            <span class="value">{{ documentData()['expiryDate'] }}</span>
+          </div>
+        </div>
+        
+        <div class="security-features">
+          <div class="qr-code">
+            <div class="qr-placeholder">📱</div>
+            <span class="qr-label">QR Code</span>
+          </div>
+          <div class="blockchain-id">
+            <span class="blockchain-label">⛓️ Blockchain ID:</span>
+            <span class="blockchain-value">{{ documentData()['blockchainId'].substring(0, 20) }}...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="verification-section">
+      <div class="verification-card">
+        <h3>🔍 Vérification par Blockchain</h3>
+        
+        <!-- Scanner QR Code -->
+        <div class="qr-scanner-section">
+          <h4>📱 Scanner QR Code</h4>
+          <div class="scanner-container">
+            <div class="scanner-viewport">
+              <div class="scanner-frame">
+                <div class="scanner-corners">
+                  <div class="corner top-left"></div>
+                  <div class="corner top-right"></div>
+                  <div class="corner bottom-left"></div>
+                  <div class="corner bottom-right"></div>
+                </div>
+                <div class="scanner-line"></div>
+              </div>
+              <div class="scanner-overlay">
+                <p>Positionnez le QR code dans le cadre</p>
+                <button class="scan-btn" (click)="startQRScan()">
+                  <span class="scan-icon">📷</span>
+                  <span class="scan-text">Scanner</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Vérification manuelle -->
+        <div class="manual-verification">
+          <h4>⛓️ Vérification Manuelle</h4>
+          <div class="verification-input">
+            <input 
+              type="text" 
+              placeholder="Entrez l'ID Blockchain ou le numéro de document"
+              class="blockchain-input"
+              [(ngModel)]="verificationInput"
+            >
+            <button class="verify-manual-btn" (click)="manualVerify()">
+              Vérifier
+            </button>
+          </div>
+        </div>
+
+        <!-- Statut de vérification -->
+        <div class="verification-status">
+          <div class="status-item">
+            <span class="status-icon">✓</span>
+            <span class="status-text">Document certifié par NaissanceChain</span>
+          </div>
+          <div class="status-item">
+            <span class="status-icon">✓</span>
+            <span class="status-text">Identité vérifiée avec le registre de naissance</span>
+          </div>
+          <div class="status-item">
+            <span class="status-icon">✓</span>
+            <span class="status-text">Document valide et authentique</span>
+          </div>
+        </div>
+        
+        <div class="verification-details">
+          <div class="detail-item">
+            <span class="detail-label">Émis le:</span>
+            <span class="detail-value">{{ documentData()['issuedDate'] }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Expire le:</span>
+            <span class="detail-value">{{ documentData()['expiryDate'] }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Statut:</span>
+            <span class="detail-value status-certified">Certifié</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="actions-section">
+      <div class="action-buttons">
+        <button class="action-btn primary" (click)="downloadDocument()">
+          <span class="btn-icon">📥</span>
+          <span class="btn-text">Télécharger le PDF</span>
+        </button>
+        
+        <button class="action-btn secondary" (click)="verifyDocument()">
+          <span class="btn-icon">🔍</span>
+          <span class="btn-text">Vérifier sur la Blockchain</span>
+        </button>
+        
+        <button class="action-btn tertiary" (click)="sendEmail()">
+          <span class="btn-icon">📧</span>
+          <span class="btn-text">Envoyer par Email</span>
+        </button>
+      </div>
+      
+      <div class="additional-actions">
+        <button class="link-btn" (click)="printDocument()">Imprimer le document</button>
+        <button class="link-btn" (click)="shareDocument()">Partager le lien</button>
+        <button class="link-btn" (click)="reportProblem()">Signaler un problème</button>
+      </div>
+    </section>
+
+    <section class="instructions-section">
+      <div class="instructions-card">
+        <h3>📋 Instructions d'utilisation</h3>
+        <div class="instruction-list">
+          <div class="instruction-item">
+            <div class="instruction-icon">1</div>
+            <div class="instruction-content">
+              <h4>Téléchargement</h4>
+              <p>Cliquez sur "Télécharger le PDF" pour obtenir une copie numérique de votre CNI</p>
+            </div>
+          </div>
+          
+          <div class="instruction-item">
+            <div class="instruction-icon">2</div>
+            <div class="instruction-content">
+              <h4>Vérification</h4>
+              <p>Scannez le QR code ou utilisez l'identifiant blockchain pour vérifier l'authenticité</p>
+            </div>
+          </div>
+          
+          <div class="instruction-item">
+            <div class="instruction-icon">3</div>
+            <div class="instruction-content">
+              <h4>Partage sécurisé</h4>
+              <p>Partagez uniquement avec des autorités reconnues pour éviter la fraude</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

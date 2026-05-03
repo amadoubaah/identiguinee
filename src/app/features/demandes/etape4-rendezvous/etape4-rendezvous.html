@@ -1,0 +1,131 @@
+<div class="etape4-rendezvous-container">
+  <div class="form-header">
+    <div class="progress-bar">
+      <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+    </div>
+    <div class="header-content">
+      <button class="back-btn" (click)="goToPreviousStep()">← Retour</button>
+      <div>
+        <h1>Étape 4: Prise de Rendez-vous</h1>
+        <p>Choisissez une date, heure et centre pour votre rendez-vous</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-content">
+    <form (ngSubmit)="onSubmit()">
+      <!-- Calendar Section -->
+      <div class="calendar-section">
+        <h2>📅 Date du rendez-vous</h2>
+        <div class="calendar-container">
+          <div class="calendar-header">
+            <button type="button" class="calendar-nav" (click)="previousMonth()">←</button>
+            <div class="calendar-title">
+              <button type="button" class="year-nav" (click)="previousYear()">‹</button>
+              <h3>{{ getCurrentMonthName() }} {{ getCurrentYear() }}</h3>
+              <button type="button" class="year-nav" (click)="nextYear()">›</button>
+            </div>
+            <button type="button" class="calendar-nav" (click)="nextMonth()">→</button>
+          </div>
+          <div class="calendar-grid">
+            <div class="day-header" *ngFor="let day of dayHeaders()">{{ day }}</div>
+            <div 
+              *ngFor="let date of calendarDates()" 
+              class="calendar-day"
+              [class.available]="isDateAvailable(date)"
+              [class.selected]="isSelected(date)"
+              [class.disabled]="!isDateAvailable(date)"
+              (click)="selectDate(date)"
+              type="button"
+            >
+              {{ date.getDate() }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Time Selection -->
+      <div class="time-section" *ngIf="selectedDate()">
+        <h2>🕐 Heure du rendez-vous</h2>
+        <div class="time-grid">
+          <button 
+            *ngFor="let time of availableTimeSlots()" 
+            type="button"
+            class="time-slot"
+            [class.selected]="selectedTime() === time"
+            (click)="selectTime(time)"
+          >
+            {{ time }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Center Selection -->
+      <div class="center-section">
+        <h2>🏢 Centre de rendez-vous</h2>
+        <div class="centers-grid">
+          <div 
+            *ngFor="let center of centers()" 
+            class="center-card"
+            [class.selected]="selectedCenter() === center.id"
+            (click)="selectCenter(center.id)"
+            type="button"
+          >
+            <div class="center-header">
+              <div class="center-info">
+                <h3>{{ center.name }}</h3>
+                <p>{{ center.address }}</p>
+              </div>
+              <div class="center-icon">📍</div>
+            </div>
+            <div class="center-details">
+              <div class="detail-item">
+                <span class="detail-icon">👥</span>
+                <span>Capacité: {{ center.capacity }} personnes</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Summary Section -->
+      <div class="summary-section" *ngIf="selectedDate() && selectedTime() && selectedCenter()">
+        <h2>📋 Résumé de votre rendez-vous</h2>
+        <div class="summary-card">
+          <div class="summary-item">
+            <span class="summary-icon">📅</span>
+            <div class="summary-content">
+              <h4>Date</h4>
+              <p>{{ formatDate(selectedDate()!) }}</p>
+            </div>
+          </div>
+          <div class="summary-item">
+            <span class="summary-icon">🕐</span>
+            <div class="summary-content">
+              <h4>Heure</h4>
+              <p>{{ selectedTime() }}</p>
+            </div>
+          </div>
+          <div class="summary-item">
+            <span class="summary-icon">🏢</span>
+            <div class="summary-content">
+              <h4>Centre</h4>
+              <p>{{ getSelectedCenter()?.name }}</p>
+              <p>{{ getSelectedCenter()?.address }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="goToPreviousStep()">
+          Précédent
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="!canSubmit() || isSubmitting()">
+          {{ isSubmitting() ? 'Traitement...' : 'Confirmer le rendez-vous' }}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

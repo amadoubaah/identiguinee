@@ -1,0 +1,197 @@
+<div class="apropos-container">
+  <header class="apropos-header">
+    <button class="back-btn" (click)="goToPortal()">← Retour au portail</button>
+    <h1>🏛️ À Propos d'IdentiGuinée</h1>
+    <p>Découvrez notre mission et notre engagement pour la Guinée</p>
+  </header>
+
+  <main class="apropos-main">
+    <!-- Section Mission -->
+    <section class="mission-section">
+      <div class="mission-card">
+        <h2>🎯 Notre Mission</h2>
+        <p>
+          IdentiGuinée est la plateforme nationale de gestion d'identité numérique, 
+          conçue pour simplifier et sécuriser l'accès aux services administratifs 
+          pour tous les citoyens guinéens.
+        </p>
+        <div class="mission-values">
+          <div class="value-item">
+            <div class="value-icon">🔒</div>
+            <h3>Sécurité</h3>
+            <p>Protection des données personnelles avec blockchain</p>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">⚡</div>
+            <h3>Rapidité</h3>
+            <p>Services numériques en quelques minutes</p>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">🌍</div>
+            <h3>Accessibilité</h3>
+            <p>Disponible pour tous les citoyens guinéens</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Services -->
+    <section class="services-section">
+      <div class="services-card">
+        <h2>📋 Nos Services</h2>
+        <div class="services-grid">
+          <div class="service-item">
+            <div class="service-icon">🇬🇳</div>
+            <h3>CNI Numérique</h3>
+            <p>Carte nationale d'identité sécurisée par blockchain</p>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">📋</div>
+            <h3>Acte de Naissance</h3>
+            <p>Certification et vérification des actes de naissance</p>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🏠</div>
+            <h3>Certificat de Résidence</h3>
+            <p>Justificatif de domicile numérique</p>
+          </div>
+          <div class="service-item">
+            <div class="service-icon">🛂</div>
+            <h3>Passeport</h3>
+            <p>Demander et suivre votre passeport guinéen</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Support Client -->
+    <section class="support-section">
+      <div class="support-card">
+        <h2>🎧 Support Client</h2>
+        <p>Notre équipe d'assistance est là pour vous aider 24/7</p>
+        
+        <div class="support-options">
+          <div class="support-option">
+            <div class="support-icon">📞</div>
+            <div class="support-info">
+              <h3>Téléphone</h3>
+              <p>+224 622 22 22 22</p>
+              <span class="support-hours">24h/24, 7j/7</span>
+            </div>
+          </div>
+          
+          <div class="support-option">
+            <div class="support-icon">📧</div>
+            <div class="support-info">
+              <h3>Email</h3>
+              <p>support@identiguinee.gn</p>
+              <span class="support-hours">Réponse sous 24h</span>
+            </div>
+          </div>
+          
+          <div class="support-option">
+            <div class="support-icon">💬</div>
+            <div class="support-info">
+              <h3>Chat en Direct</h3>
+              <p>Assistance instantanée</p>
+              <span class="support-hours">Disponible maintenant</span>
+            </div>
+          </div>
+          
+          <div class="support-option">
+            <div class="support-icon">📱</div>
+            <div class="support-info">
+              <h3>WhatsApp</h3>
+              <p>+224 622 22 22 22</p>
+              <span class="support-hours">Support rapide</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="support-actions">
+          <button class="support-btn primary" (click)="goToSupport()">
+            💬 Accéder au Support Complet
+          </button>
+          <button class="support-btn secondary" (click)="goToContact()">
+            📧 Formulaire de Contact
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section FAQ -->
+    <section class="faq-section">
+      <div class="faq-card">
+        <h2>❓ Questions Fréquentes</h2>
+        <div class="faq-list">
+          <div class="faq-item">
+            <h3>Comment obtenir ma CNI numérique ?</h3>
+            <p>
+              Rendez-vous sur notre portail, cliquez sur "Soumettre demande" et 
+              suivez les 4 étapes du processus. Votre CNI sera disponible en 2 minutes.
+            </p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Est-ce que mes données sont sécurisées ?</h3>
+            <p>
+              Oui, toutes vos données sont protégées par la technologie blockchain 
+              NaissanceChain, garantissant leur authenticité et leur confidentialité.
+            </p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Comment vérifier l'authenticité d'un document ?</h3>
+            <p>
+              Utilisez notre scanner QR code ou entrez manuellement l'ID blockchain 
+              dans la section de vérification pour confirmer l'authenticité.
+            </p>
+          </div>
+          
+          <div class="faq-item">
+            <h3>Quels documents puis-je obtenir ?</h3>
+            <p>
+              CNI, acte de naissance, certificat de résidence, passeport et registre 
+              de naissance. Tous sont certifiés par blockchain.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section class="contact-info-section">
+      <div class="contact-info-card">
+        <h2>📍 Coordonnées</h2>
+        <div class="contact-info-grid">
+          <div class="contact-info-item">
+            <div class="contact-icon">🏢</div>
+            <div class="contact-details">
+              <h3>Siège Social</h3>
+              <p>Ministère de l'Administration Territoriale<br>
+              Conakry, République de Guinée</p>
+            </div>
+          </div>
+          
+          <div class="contact-info-item">
+            <div class="contact-icon">🕐</div>
+            <div class="contact-details">
+              <h3>Horaires d'Ouverture</h3>
+              <p>Lundi - Vendredi: 8h00 - 17h00<br>
+              Samedi: 8h00 - 12h00</p>
+            </div>
+          </div>
+          
+          <div class="contact-info-item">
+            <div class="contact-icon">🌐</div>
+            <div class="contact-details">
+              <h3>Site Web</h3>
+              <p>www.identiguinee.gn<br>
+              services.identiguinee.gn</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

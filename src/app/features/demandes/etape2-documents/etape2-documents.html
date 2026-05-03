@@ -1,0 +1,161 @@
+<div class="etape2-documents-container">
+  <header class="form-header">
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+      <div class="progress-steps">
+        <div class="step completed">
+          <span class="step-number">✓</span>
+          <span class="step-label">Identité</span>
+        </div>
+        <div class="step active">
+          <span class="step-number">2</span>
+          <span class="step-label">Documents</span>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <span class="step-label">Vérification</span>
+        </div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <span class="step-label">Rendez-vous</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="header-content">
+      <button class="back-btn" (click)="goToPreviousStep()">← Retour</button>
+      <div class="header-info">
+        <h1>Étape 2: Téléchargement des Documents</h1>
+        <p>Veuillez télécharger les documents requis pour votre demande</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="form-main">
+    <div class="upload-summary">
+      <div class="summary-card">
+        <div class="summary-stats">
+          <div class="stat-item">
+            <span class="stat-number">{{ getRequiredUploadedCount() }}</span>
+            <span class="stat-label">Obligatoires téléchargés</span>
+          </div>
+          <div class="stat-separator">/</div>
+          <div class="stat-item">
+            <span class="stat-number">{{ getTotalRequiredCount() }}</span>
+            <span class="stat-label">Total obligatoires</span>
+          </div>
+          <div class="stat-separator">|</div>
+          <div class="stat-item">
+            <span class="stat-number">{{ getUploadedCount() }}</span>
+            <span class="stat-label">Total téléchargés</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="documents-form" (ngSubmit)="onSubmit()">
+      <section class="documents-section">
+        <h2>📋 Documents à Télécharger</h2>
+        
+        @for (doc of documents(); track doc.id) {
+          <div class="document-card" [class.uploaded]="doc.uploaded" [class.required]="doc.required">
+            <div class="document-info">
+              <div class="document-header">
+                <h3 class="document-title">
+                  {{ doc.name }}
+                  @if (doc.required) {
+                    <span class="required-badge">Obligatoire</span>
+                  }
+                </h3>
+                <div class="document-status">
+                  @if (doc.uploaded) {
+                    <span class="status uploaded">✅ Téléchargé</span>
+                  } @else {
+                    <span class="status pending">⏳ En attente</span>
+                  }
+                </div>
+              </div>
+              
+              <p class="document-description">{{ doc.description }}</p>
+              
+              @if (uploadProgress()[doc.id]) {
+                <div class="upload-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" [style.width.%]="uploadProgress()[doc.id]"></div>
+                  </div>
+                  <span class="progress-text">{{ getUploadProgress(doc.id) }}%</span>
+                </div>
+              }
+            </div>
+            
+            <div class="document-actions">
+              @if (!doc.uploaded) {
+                <div class="file-upload">
+                  <input 
+                    type="file" 
+                    [id]="'file-' + doc.id" 
+                    (change)="onFileUpload($event, doc.id)"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                    hidden
+                  >
+                  <label [for]="'file-' + doc.id" class="upload-btn">
+                    <span class="upload-icon">📁</span>
+                    <span class="upload-text">Choisir un fichier</span>
+                  </label>
+                </div>
+              } @else {
+                <div class="file-info">
+                  <span class="file-name">{{ doc.file?.name }}</span>
+                  <button type="button" class="remove-btn" (click)="removeDocument(doc.id)">
+                    ❌ Supprimer
+                  </button>
+                </div>
+              }
+            </div>
+          </div>
+        }
+      </section>
+
+      <section class="instructions-section">
+        <h2>📖 Instructions</h2>
+        <div class="instructions-grid">
+          <div class="instruction-card">
+            <div class="instruction-icon">📄</div>
+            <div class="instruction-content">
+              <h4>Formats acceptés</h4>
+              <p>PDF, JPEG, PNG (max 5MB)</p>
+            </div>
+          </div>
+          
+          <div class="instruction-card">
+            <div class="instruction-icon">🔍</div>
+            <div class="instruction-content">
+              <h4>Qualité</h4>
+              <p>Documents clairs et lisibles</p>
+            </div>
+          </div>
+          
+          <div class="instruction-card">
+            <div class="instruction-icon">✅</div>
+            <div class="instruction-content">
+              <h4>Validité</h4>
+              <p>Documents valides et à jour</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="goToPreviousStep()">
+          ← Précédent
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="isSubmitting()">
+          <span *ngIf="!isSubmitting()">Suivant →</span>
+          <span *ngIf="isSubmitting()">Traitement...</span>
+        </button>
+      </div>
+    </form>
+  </main>
+</div>

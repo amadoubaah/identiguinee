@@ -1,0 +1,264 @@
+<div class="contact-container">
+  <header class="contact-header">
+    <button class="back-btn" (click)="goToPortal()">← Retour au portail</button>
+    <h1>📧 Contactez-Nous</h1>
+    <p>Nous sommes là pour vous aider et répondre à vos questions</p>
+  </header>
+
+  <main class="contact-main">
+    <!-- Formulaire de Contact -->
+    <section class="contact-form-section">
+      <div class="contact-form-card">
+        <h2>📝 Formulaire de Contact</h2>
+        
+        <div class="form-success" *ngIf="isSubmitted()">
+          <div class="success-icon">✅</div>
+          <h3>Merci pour votre message !</h3>
+          <p>Nous avons bien reçu votre demande et vous répondrons dans les plus brefs délais.</p>
+          <button class="success-btn" (click)="resetForm()">Envoyer un autre message</button>
+        </div>
+
+        <form class="contact-form" *ngIf="!isSubmitted()" (ngSubmit)="submitForm()">
+          <div class="form-grid">
+            <!-- Informations Personnelles -->
+            <div class="form-section">
+              <h3>👤 Informations Personnelles</h3>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="name">Nom complet *</label>
+                  <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    [(ngModel)]="form.name" 
+                    required
+                    placeholder="Entrez votre nom complet"
+                    class="form-input"
+                  >
+                </div>
+                
+                <div class="form-group">
+                  <label for="email">Adresse email *</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    [(ngModel)]="form.email" 
+                    required
+                    placeholder="votre.email@exemple.com"
+                    class="form-input"
+                  >
+                </div>
+              </div>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="phone">Téléphone</label>
+                  <input 
+                    type="tel" 
+                    id="phone" 
+                    name="phone" 
+                    [(ngModel)]="form.phone" 
+                    placeholder="+224 XXX XXX XXX"
+                    class="form-input"
+                  >
+                </div>
+                
+                <div class="form-group">
+                  <label for="subject">Sujet *</label>
+                  <select 
+                    id="subject" 
+                    name="subject" 
+                    [(ngModel)]="form.subject" 
+                    required
+                    class="form-select"
+                  >
+                    <option value="">Sélectionnez un sujet</option>
+                    <option *ngFor="let subject of subjects" [value]="subject.value">
+                      {{ subject.label }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Informations sur le Document -->
+            <div class="form-section">
+              <h3>📋 Informations sur le Document (si applicable)</h3>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="documentType">Type de document</label>
+                  <select 
+                    id="documentType" 
+                    name="documentType" 
+                    [(ngModel)]="form.documentType" 
+                    class="form-select"
+                  >
+                    <option value="">Sélectionnez un type</option>
+                    <option *ngFor="let type of documentTypes" [value]="type.value">
+                      {{ type.label }}
+                    </option>
+                  </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="documentNumber">Numéro de document</label>
+                  <input 
+                    type="text" 
+                    id="documentNumber" 
+                    name="documentNumber" 
+                    [(ngModel)]="form.documentNumber" 
+                    placeholder="CNI-XXXXXXXX ou autre numéro"
+                    class="form-input"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Message -->
+            <div class="form-section">
+              <h3>💬 Votre Message</h3>
+              
+              <div class="form-group full-width">
+                <label for="message">Message *</label>
+                <textarea 
+                  id="message" 
+                  name="message" 
+                  [(ngModel)]="form.message" 
+                  required
+                  rows="6"
+                  placeholder="Décrivez votre demande ou votre problème en détail..."
+                  class="form-textarea"
+                ></textarea>
+                <div class="char-count">{{ form.message.length }} caractères</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button 
+              type="submit" 
+              class="submit-btn primary" 
+              [disabled]="isSubmitting()"
+            >
+              <span *ngIf="!isSubmitting()">📤 Envoyer le message</span>
+              <span *ngIf="isSubmitting()">⏳ Envoi en cours...</span>
+            </button>
+            
+            <button type="button" class="submit-btn secondary" (click)="resetForm()">
+              🔄 Réinitialiser
+            </button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- Informations de Contact -->
+    <section class="contact-info-section">
+      <div class="contact-info-card">
+        <h2>📞 Autres Moyens de Contact</h2>
+        
+        <div class="contact-methods">
+          <div class="contact-method">
+            <div class="method-icon">📞</div>
+            <div class="method-info">
+              <h3>Appel Téléphonique</h3>
+              <p>+224 622 22 22 22</p>
+              <span class="method-hours">24h/24, 7j/7</span>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="method-icon">📧</div>
+            <div class="method-info">
+              <h3>Email Direct</h3>
+              <p>support@identiguinee.gn</p>
+              <span class="method-hours">Réponse sous 24h</span>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="method-icon">💬</div>
+            <div class="method-info">
+              <h3>Chat en Direct</h3>
+              <p>Assistance instantanée</p>
+              <span class="method-hours">Disponible maintenant</span>
+              <button class="method-btn" (click)="goToSupport()">Accéder au chat</button>
+            </div>
+          </div>
+          
+          <div class="contact-method">
+            <div class="method-icon">📱</div>
+            <div class="method-info">
+              <h3>WhatsApp</h3>
+              <p>+224 622 22 22 22</p>
+              <span class="method-hours">Support rapide</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Support Client -->
+    <section class="support-section">
+      <div class="support-card">
+        <h2>🎧 Support Client Complet</h2>
+        <p>Pour une assistance complète et personnalisée</p>
+        
+        <div class="support-features">
+          <div class="support-feature">
+            <div class="feature-icon">⚡</div>
+            <h3>Assistance Rapide</h3>
+            <p>Réponse garantie sous 2 heures pour les urgences</p>
+          </div>
+          
+          <div class="support-feature">
+            <div class="feature-icon">🔧</div>
+            <h3>Support Technique</h3>
+            <p>Aide pour tous les problèmes techniques et documents</p>
+          </div>
+          
+          <div class="support-feature">
+            <div class="feature-icon">📚</div>
+            <h3>Centre d'Aide</h3>
+            <p>FAQ complète et guides d'utilisation</p>
+          </div>
+        </div>
+        
+        <button class="support-btn" (click)="goToSupport()">
+          🎧 Accéder au Support Complet
+        </button>
+      </div>
+    </section>
+
+    <!-- Informations Supplémentaires -->
+    <section class="additional-info-section">
+      <div class="info-card">
+        <h2>ℹ️ Informations Utiles</h2>
+        
+        <div class="info-grid">
+          <div class="info-item">
+            <h3>🕐 Horaires de Support</h3>
+            <p>Lundi - Vendredi: 8h00 - 20h00<br>
+            Samedi: 9h00 - 17h00<br>
+            Dimanche: 10h00 - 14h00</p>
+          </div>
+          
+          <div class="info-item">
+            <h3>📍 Siège Social</h3>
+            <p>Ministère de l'Administration Territoriale<br>
+            Conakry, République de Guinée</p>
+          </div>
+          
+          <div class="info-item">
+            <h3>🌐 Ressources</h3>
+            <p>Site web: www.identiguinee.gn<br>
+            Documentation: docs.identiguinee.gn</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

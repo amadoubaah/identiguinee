@@ -1,0 +1,200 @@
+<div class="portal-container">
+  <header class="portal-header">
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">🇬🇳</div>
+        <h1>IdentiGuinée</h1>
+      </div>
+      <nav class="header-nav">
+        <button class="nav-btn active">Portail</button>
+        <button class="nav-btn" (click)="navigateToApropos()">À propos</button>
+        <button class="nav-btn" (click)="navigateToContact()">Contact</button>
+        <button class="nav-btn" (click)="navigateToProfile()">Mon Profil</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="portal-main">
+    <section class="hero-section">
+      <div class="hero-content">
+        <div class="badge">
+          ⚡ Phase 2 - Demi-finale · Portail Citoyen
+        </div>
+        <h2>
+          Votre CNI numérique<br>
+          <span>en 2 minutes chrono</span>
+        </h2>
+        <p>
+          Soumettez votre demande, suivez son traitement en temps réel<br>
+          et téléchargez votre document certifié avec identifiant blockchain.
+        </p>
+      </div>
+      <div class="hero-visual">
+        <div class="card-3d">
+          <div class="card-front">
+            <div class="card-header">
+              <div class="flag">🇬🇳</div>
+              <div class="card-type">CNI NUMÉRIQUE</div>
+            </div>
+            <div class="card-body">
+              <div class="photo-placeholder">👤</div>
+              <div class="card-info">
+                <h3>Citoyen Guinéen</h3>
+                <p>Né(e) le • Guinée</p>
+              </div>
+            </div>
+            <div class="card-footer">
+              <div class="blockchain-id">⛓️ ID: GN-2026-XXXXX</div>
+              <div class="qr-placeholder">📱</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="services-section">
+      <div class="services-header">
+        <h3>Services disponibles</h3>
+        <p>Choisissez l'action que vous souhaitez effectuer</p>
+      </div>
+      
+      <div class="services-grid">
+        <div class="service-card" (click)="navigateToSubmission()">
+          <div class="service-icon">📝</div>
+          <h4>Soumettre une demande</h4>
+          <p>Démarrez votre demande de CNI en ligne</p>
+          <div class="service-features">
+            <span>• Formulaire simplifié</span>
+            <span>• Vérification automatique</span>
+            <span>• 2 minutes chrono</span>
+          </div>
+          <button class="service-btn primary" (click)="navigateToSubmission()">Commencer</button>
+        </div>
+
+        <div class="service-card" (click)="navigateToTracking()">
+          <div class="service-icon">🔍</div>
+          <h4>Suivre le statut</h4>
+          <p>Consultez l'état de votre demande en temps réel</p>
+          <div class="service-features">
+            <span>• Suivi instantané</span>
+            <span>• Notifications par SMS</span>
+            <span>• Historique détaillé</span>
+          </div>
+          <button class="service-btn secondary" (click)="navigateToTracking()">Suivre</button>
+        </div>
+
+        <div class="service-card" (click)="navigateToDownload()">
+          <div class="service-icon">📥</div>
+          <h4>Télécharger le document</h4>
+          <p>Récupérez votre CNI certifiée avec QR code</p>
+          <div class="service-features">
+            <span>• Document certifié</span>
+            <span>• Identifiant blockchain</span>
+            <span>• QR code de vérification</span>
+          </div>
+          <button class="service-btn secondary" (click)="navigateToDownload()">Télécharger</button>
+        </div>
+
+        <div class="service-card" (click)="navigateToBirthCertificate()">
+          <div class="service-icon">📋</div>
+          <h4>Acte de naissance</h4>
+          <p>Consultez et vérifiez votre acte de naissance certifié</p>
+          <div class="service-features">
+            <span>• Authentification NaissanceChain</span>
+            <span>• Téléchargement PDF</span>
+            <span>• Partage sécurisé</span>
+          </div>
+          <button class="service-btn secondary" (click)="navigateToBirthCertificate()">Consulter</button>
+        </div>
+
+        
+              </div>
+    </section>
+
+    <section class="process-section">
+      <div class="process-header">
+        <h3>Comment ça marche ?</h3>
+        <p>Le processus simplifié en 3 étapes</p>
+      </div>
+      
+      <div class="process-timeline">
+        <div class="process-step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h4>Soumission</h4>
+            <p>Remplissez le formulaire en ligne et téléchargez vos documents</p>
+          </div>
+        </div>
+        
+        <div class="process-connector">→</div>
+        
+        <div class="process-step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h4>Vérification automatique</h4>
+            <p>Cross-verification avec le registre de naissance via NaissanceChain</p>
+          </div>
+        </div>
+        
+        <div class="process-connector">→</div>
+        
+        <div class="process-step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h4>Réception instantanée</h4>
+            <p>Téléchargez votre CNI certifiée avec identifiant blockchain</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-section">
+      <div class="stats-grid">
+        <div class="stat-item">
+          <div class="stat-number">2<span>min</span></div>
+          <div class="stat-label">Temps moyen</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">100<span>%</span></div>
+          <div class="stat-label">Automatisé</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">0<span></span></div>
+          <div class="stat-label">Corruption</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number">24/7<span></span></div>
+          <div class="stat-label">Disponible</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="portal-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>IdentiGuinée</h4>
+        <p>Système national d'identification sécurisé par blockchain</p>
+      </div>
+      <div class="footer-section">
+        <h4>Services</h4>
+        <ul>
+          <li>Demande de CNI</li>
+          <li>Suivi de statut</li>
+          <li>Téléchargement</li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Support</h4>
+        <ul>
+          <li>Assistance 24/7</li>
+          <li>FAQ</li>
+          <li>Contact</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 IdentiGuinée - République de Guinée</p>
+    </div>
+  </footer>
+</div>

@@ -1,0 +1,285 @@
+<div class="etape1-identite-container">
+  <header class="form-header">
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+      <div class="progress-steps">
+        <div class="step active">
+          <span class="step-number">1</span>
+          <span class="step-label">Identité</span>
+        </div>
+        <div class="step">
+          <span class="step-number">2</span>
+          <span class="step-label">Documents</span>
+        </div>
+        <div class="step">
+          <span class="step-number">3</span>
+          <span class="step-label">Vérification</span>
+        </div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <span class="step-label">Rendez-vous</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="header-content">
+      <button class="back-btn" (click)="goToPreviousStep()">← Retour</button>
+      <div class="header-info">
+        <h1>Étape 1: Informations d'Identité</h1>
+        <p>Veuillez remplir toutes vos informations personnelles</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="form-main">
+    <form class="identity-form" (ngSubmit)="onSubmit()">
+      <!-- Section Informations Personnelles -->
+      <section class="form-section">
+        <h2>👤 Informations Personnelles</h2>
+        <div class="form-grid">
+          <div class="form-group" [class.error]="errors()['nom']">
+            <label for="nom">Nom *</label>
+            <input 
+              type="text" 
+              id="nom" 
+              name="nom" 
+              [ngModel]="formData().nom"
+              (ngModelChange)="updateField('nom', $event)"
+              placeholder="Votre nom de famille"
+            >
+            <span class="error-message" *ngIf="errors()['nom']">{{ errors()['nom'] }}</span>
+          </div>
+          
+          <div class="form-group" [class.error]="errors()['prenom']">
+            <label for="prenom">Prénom(s) *</label>
+            <input 
+              type="text" 
+              id="prenom" 
+              name="prenom" 
+              [ngModel]="formData().prenom"
+              (ngModelChange)="updateField('prenom', $event)"
+              placeholder="Vos prénoms"
+            >
+            <span class="error-message" *ngIf="errors()['prenom']">{{ errors()['prenom'] }}</span>
+          </div>
+          
+          <div class="form-group" [class.error]="errors()['dateNaissance']">
+            <label for="dateNaissance">Date de naissance *</label>
+            <input 
+              type="date" 
+              id="dateNaissance" 
+              name="dateNaissance" 
+              [ngModel]="formData().dateNaissance"
+              (ngModelChange)="updateField('dateNaissance', $event)"
+            >
+            <span class="error-message" *ngIf="errors()['dateNaissance']">{{ errors()['dateNaissance'] }}</span>
+          </div>
+          
+          <div class="form-group" [class.error]="errors()['lieuNaissance']">
+            <label for="lieuNaissance">Lieu de naissance *</label>
+            <input 
+              type="text" 
+              id="lieuNaissance" 
+              name="lieuNaissance" 
+              [ngModel]="formData().lieuNaissance"
+              (ngModelChange)="updateField('lieuNaissance', $event)"
+              placeholder="Ville, région"
+            >
+            <span class="error-message" *ngIf="errors()['lieuNaissance']">{{ errors()['lieuNaissance'] }}</span>
+          </div>
+          
+          <div class="form-group" [class.error]="errors()['sexe']">
+            <label>Sexe *</label>
+            <div class="radio-group">
+              <label class="radio-option">
+                <input 
+                  type="radio" 
+                  name="sexe" 
+                  value="M"
+                  [(ngModel)]="formData().sexe"
+                  (change)="updateField('sexe', 'M')"
+                >
+                <span class="radio-label">Masculin</span>
+              </label>
+              <label class="radio-option">
+                <input 
+                  type="radio" 
+                  name="sexe" 
+                  value="F"
+                  [(ngModel)]="formData().sexe"
+                  (change)="updateField('sexe', 'F')"
+                >
+                <span class="radio-label">Féminin</span>
+              </label>
+            </div>
+            <span class="error-message" *ngIf="errors()['sexe']">{{ errors()['sexe'] }}</span>
+          </div>
+          
+          <div class="form-group">
+            <label for="nationalite">Nationalité</label>
+            <select 
+              id="nationalite" 
+              name="nationalite" 
+              [ngModel]="formData().nationalite"
+              (ngModelChange)="updateField('nationalite', $event)"
+            >
+              <option value="Guinéenne">Guinéenne</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Contact -->
+      <section class="form-section">
+        <h2>📞 Informations de Contact</h2>
+        <div class="form-grid">
+          <div class="form-group full-width" [class.error]="errors()['telephone']">
+            <label for="telephone">Téléphone *</label>
+            <input 
+              type="tel" 
+              id="telephone" 
+              name="telephone" 
+              [ngModel]="formData().telephone"
+              (ngModelChange)="updateField('telephone', $event)"
+              placeholder="+224 XXX XX XX XX"
+            >
+            <span class="error-message" *ngIf="errors()['telephone']">{{ errors()['telephone'] }}</span>
+          </div>
+          
+          <div class="form-group full-width" [class.error]="errors()['email']">
+            <label for="email">Email *</label>
+            <input 
+              type="email" 
+              id="email" 
+              name="email" 
+              [ngModel]="formData().email"
+              (ngModelChange)="updateField('email', $event)"
+              placeholder="votre.email@exemple.com"
+            >
+            <span class="error-message" *ngIf="errors()['email']">{{ errors()['email'] }}</span>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="adresse">Adresse</label>
+            <textarea 
+              id="adresse" 
+              name="adresse" 
+              [ngModel]="formData().adresse"
+              (ngModelChange)="updateField('adresse', $event)"
+              placeholder="Votre adresse complète"
+              rows="3"
+            ></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Familiale -->
+      <section class="form-section">
+        <h2>👨‍👩‍👧 Informations Familiales</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="nomPere">Nom du père</label>
+            <input 
+              type="text" 
+              id="nomPere" 
+              name="nomPere" 
+              [ngModel]="formData().nomPere"
+              (ngModelChange)="updateField('nomPere', $event)"
+              placeholder="Nom du père"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="nomMere">Nom de la mère</label>
+            <input 
+              type="text" 
+              id="nomMere" 
+              name="nomMere" 
+              [ngModel]="formData().nomMere"
+              (ngModelChange)="updateField('nomMere', $event)"
+              placeholder="Nom de la mère"
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Physique -->
+      <section class="form-section">
+        <h2>🔍 Caractéristiques Physiques</h2>
+        <div class="form-grid">
+          <div class="form-group">
+            <label for="taille">Taille (cm)</label>
+            <input 
+              type="number" 
+              id="taille" 
+              name="taille" 
+              [ngModel]="formData().taille"
+              (ngModelChange)="updateField('taille', $event)"
+              placeholder="170"
+            >
+          </div>
+          
+          <div class="form-group">
+            <label for="teint">Teint</label>
+            <select 
+              id="teint" 
+              name="teint" 
+              [ngModel]="formData().teint"
+              (ngModelChange)="updateField('teint', $event)"
+            >
+              <option value="">Sélectionner</option>
+              <option value="Noir">Noir</option>
+              <option value="Brun">Brun</option>
+              <option value="Marron">Marron</option>
+              <option value="Clair">Clair</option>
+            </select>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="signesParticuliers">Signes particuliers</label>
+            <textarea 
+              id="signesParticuliers" 
+              name="signesParticuliers" 
+              [ngModel]="formData().signesParticuliers"
+              (ngModelChange)="updateField('signesParticuliers', $event)"
+              placeholder="Tatouages, cicatrices, etc."
+              rows="2"
+            ></textarea>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section Professionnelle -->
+      <section class="form-section">
+        <h2>💼 Informations Professionnelles</h2>
+        <div class="form-grid">
+          <div class="form-group full-width">
+            <label for="profession">Profession</label>
+            <input 
+              type="text" 
+              id="profession" 
+              name="profession" 
+              [ngModel]="formData().profession"
+              (ngModelChange)="updateField('profession', $event)"
+              placeholder="Votre profession"
+            >
+          </div>
+        </div>
+      </section>
+
+      <!-- Actions -->
+      <div class="form-actions">
+        <button type="button" class="btn-secondary" (click)="goToPreviousStep()">
+          ← Précédent
+        </button>
+        <button type="submit" class="btn-primary" [disabled]="isSubmitting()">
+          <span *ngIf="!isSubmitting()">Suivant →</span>
+          <span *ngIf="isSubmitting()">Enregistrement...</span>
+        </button>
+      </div>
+    </form>
+  </main>
+</div>

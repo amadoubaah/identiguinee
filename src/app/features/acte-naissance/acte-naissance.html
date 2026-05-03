@@ -1,0 +1,188 @@
+<div class="acte-naissance-container">
+  <header class="acte-naissance-header">
+    <button class="back-btn" (click)="goToPortal()">← Retour au portail</button>
+    <h1>📋 Acte de Naissance</h1>
+    <p>Consultez et vérifiez votre acte de naissance certifié par NaissanceChain</p>
+  </header>
+
+  <main class="acte-naissance-main">
+    <!-- Aperçu de l'acte -->
+    <section class="certificate-preview">
+      <div class="certificate-card">
+        <div class="certificate-header">
+          <div class="official-seal">🇬🇳</div>
+          <div class="certificate-title">
+            <h2>RÉPUBLIQUE DE GUINÉE</h2>
+            <h3>MINISTÈRE DE LA SANTÉ</h3>
+            <h4>DIRECTION NATIONALE DE L'ÉTAT CIVIL</h4>
+          </div>
+        </div>
+        
+        <div class="certificate-body">
+          <div class="certificate-number">
+            <span class="label">ACTE DE NAISSANCE N°</span>
+            <span class="number">{{ birthCertificateData()['id'] }}</span>
+          </div>
+          
+          <div class="personal-info">
+            <div class="info-row">
+              <span class="label">Nom complet:</span>
+              <span class="value">{{ birthCertificateData()['name'] }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Né le:</span>
+              <span class="value">{{ birthCertificateData()['birthDate'] }} à {{ birthCertificateData()['birthTime'] }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">À:</span>
+              <span class="value">{{ birthCertificateData()['birthPlace'] }}, {{ birthCertificateData()['birthRegion'] }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Sexe:</span>
+              <span class="value">{{ birthCertificateData()['sex'] }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Nationalité:</span>
+              <span class="value">{{ birthCertificateData()['nationality'] }}</span>
+            </div>
+          </div>
+          
+          <div class="parents-info">
+            <div class="info-row">
+              <span class="label">Père:</span>
+              <span class="value">{{ birthCertificateData()['fatherName'] }} - {{ birthCertificateData()['fatherOccupation'] }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Mère:</span>
+              <span class="value">{{ birthCertificateData()['motherName'] }} - {{ birthCertificateData()['motherOccupation'] }}</span>
+            </div>
+          </div>
+          
+          <div class="registration-info">
+            <div class="info-row">
+              <span class="label">Date d'enregistrement:</span>
+              <span class="value">{{ birthCertificateData()['registrationDate'] }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Numéro d'immatriculation:</span>
+              <span class="value">{{ birthCertificateData()['registrationNumber'] }}</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="certificate-footer">
+          <div class="qr-section">
+            <div class="qr-placeholder">📱</div>
+            <span class="qr-label">QR Code de vérification</span>
+          </div>
+          <div class="blockchain-section">
+            <span class="blockchain-label">⛓️ NaissanceChain ID:</span>
+            <span class="blockchain-id">{{ birthCertificateData()['birthChainId'].substring(0, 20) }}...</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section de vérification -->
+    <section class="verification-section">
+      <div class="verification-card">
+        <h3>🔍 Authentification NaissanceChain</h3>
+        <p>Vérifiez l'authenticité de votre acte de naissance sur la blockchain</p>
+        
+        <div class="verification-actions">
+          <button 
+            class="verify-btn" 
+            (click)="verifyBirthCertificate()"
+            [disabled]="isVerifying()"
+          >
+            <span class="btn-icon">{{ getVerificationStatusIcon() }}</span>
+            <span class="btn-text">{{ getVerificationStatusText() }}</span>
+          </button>
+        </div>
+        
+        <div class="verification-status" *ngIf="verificationStatus() !== 'idle'">
+          <div class="status-message" [class.success]="verificationStatus() === 'valid'" [class.error]="verificationStatus() === 'invalid'">
+            <span class="status-icon">{{ getVerificationStatusIcon() }}</span>
+            <span class="status-text">{{ getVerificationStatusText() }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Actions principales -->
+    <section class="actions-section">
+      <div class="actions-grid">
+        <div class="action-card">
+          <div class="action-icon">📥</div>
+          <h4>Télécharger l'acte</h4>
+          <p>Obtenez votre acte au format PDF certifié</p>
+          <button 
+            class="action-btn primary" 
+            (click)="downloadBirthCertificate()"
+            [disabled]="isDownloading()"
+          >
+            <span *ngIf="!isDownloading()">📥 Télécharger PDF</span>
+            <span *ngIf="isDownloading()">⏳ Génération...</span>
+          </button>
+        </div>
+        
+        <div class="action-card">
+          <div class="action-icon">🖨️</div>
+          <h4>Imprimer l'acte</h4>
+          <p>Imprimez une version papier de votre acte</p>
+          <button class="action-btn secondary" (click)="printBirthCertificate()">
+            🖨️ Imprimer
+          </button>
+        </div>
+        
+        <div class="action-card">
+          <div class="action-icon">🔗</div>
+          <h4>Partager l'acte</h4>
+          <p>Générez un lien sécurisé pour le partage</p>
+          <button 
+            class="action-btn tertiary" 
+            (click)="generateShareLink()"
+            [disabled]="isGeneratingShareLink()"
+          >
+            <span *ngIf="!isGeneratingShareLink()">🔗 Partager</span>
+            <span *ngIf="isGeneratingShareLink()">⏳ Génération...</span>
+          </button>
+          <div class="share-link" *ngIf="shareLink()">
+            <small>Lien copié dans le presse-papiers:</small>
+            <code>{{ shareLink() }}</code>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Informations supplémentaires -->
+    <section class="info-section">
+      <div class="info-card">
+        <h3>ℹ️ Informations importantes</h3>
+        <div class="info-grid">
+          <div class="info-item">
+            <span class="info-icon">✅</span>
+            <div class="info-content">
+              <h4>Authentification garantie</h4>
+              <p>Cet acte est authentifié par la blockchain NaissanceChain et ne peut être falsifié</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🌍</span>
+            <div class="info-content">
+              <h4>Reconnaissance internationale</h4>
+              <p>L'acte est reconnu par toutes les administrations guinéennes et partenaires internationaux</p>
+            </div>
+          </div>
+          <div class="info-item">
+            <span class="info-icon">🔒</span>
+            <div class="info-content">
+              <h4>Sécurité maximale</h4>
+              <p>Votre acte est protégé par cryptographie blockchain et vérification QR code</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,68 @@
+<app-navbar></app-navbar>
+
+<section class="services-hero">
+  <div class="services-header">
+    <h1>Nos Services</h1>
+    <p>Tous les services administratifs guinéens en ligne</p>
+  </div>
+</section>
+
+<section class="services-grid">
+  <div class="service-card" (click)="goToService('cni')">
+    <div class="service-icon">🆔</div>
+    <h3>Carte Nationale d'Identité</h3>
+    <p>Faites votre demande de CNI en ligne et recevez-la rapidement</p>
+    <button class="service-btn">Demander</button>
+  </div>
+
+  <div class="service-card" (click)="goToService('acte')">
+    <div class="service-icon">📋</div>
+    <h3>Acte de Naissance</h3>
+    <p>Obtenez votre acte de naissance authentifié via NaissanceChain</p>
+    <button class="service-btn">Demander</button>
+  </div>
+
+  <div class="service-card" (click)="goToService('passport')">
+    <div class="service-icon">🛂</div>
+    <h3>Passeport</h3>
+    <p>Demandez votre passeport biométrique en quelques clics</p>
+    <button class="service-btn">Demander</button>
+  </div>
+
+  <div class="service-card" (click)="goToService('suivi')">
+    <div class="service-icon">🔍</div>
+    <h3>Suivi & Vérification</h3>
+    <p>Suivez vos demandes et vérifiez l'authenticité des documents</p>
+    <button class="service-btn">Consulter</button>
+  </div>
+
+  <div class="service-card" (click)="goToService('documents')">
+    <div class="service-icon">📁</div>
+    <h3>Mes Documents</h3>
+    <p>Accédez à tous vos documents numériques</p>
+    <button class="service-btn">Accéder</button>
+  </div>
+</section>
+
+<section class="info-section">
+  <div class="info-content">
+    <h2>Pourquoi choisir IdentiGuinée ?</h2>
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">🔒</div>
+        <h3>Sécurisé</h3>
+        <p>Technologie blockchain NaissanceChain pour une sécurité maximale</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">⚡</div>
+        <h3>Rapide</h3>
+        <p>Demandes traitées en 2 minutes contre 2 semaines traditionnellement</p>
+      </div>
+      <div class="feature">
+        <div class="feature-icon">🌍</div>
+        <h3>Accessible</h3>
+        <p>Disponible 24/7 depuis n'importe où en Guinée</p>
+      </div>
+    </div>
+  </div>
+</section>

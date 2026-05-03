@@ -1,0 +1,132 @@
+<div class="etape3-otp-container">
+  <header class="form-header">
+    <div class="progress-container">
+      <div class="progress-bar">
+        <div class="progress-fill" [style.width.%]="getProgressPercentage()"></div>
+      </div>
+      <div class="progress-steps">
+        <div class="step completed">
+          <span class="step-number">✓</span>
+          <span class="step-label">Identité</span>
+        </div>
+        <div class="step completed">
+          <span class="step-number">✓</span>
+          <span class="step-label">Documents</span>
+        </div>
+        <div class="step active">
+          <span class="step-number">3</span>
+          <span class="step-label">Vérification</span>
+        </div>
+        <div class="step">
+          <span class="step-number">4</span>
+          <span class="step-label">Rendez-vous</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="header-content">
+      <button class="back-btn" (click)="goToPreviousStep()">← Retour</button>
+      <div class="header-info">
+        <h1>Étape 3: Vérification par SMS</h1>
+        <p>Entrez le code à 6 chiffres envoyé à votre numéro</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="form-main">
+    <div class="otp-card">
+      <div class="phone-display">
+        <span class="phone-icon">📱</span>
+        <span class="phone-number">{{ phoneNumber() }}</span>
+      </div>
+
+      <div class="otp-input-section">
+        <h2>Code de vérification</h2>
+        <div class="otp-inputs">
+          @for (digit of otpCode(); track $index) {
+            <input 
+              [id]="'otp-' + $index"
+              type="text"
+              maxlength="1"
+              [(ngModel)]="otpCode()[$index]"
+              (input)="onOtpInput($event, $index)"
+              (keydown)="onKeyDown($event, $index)"
+              [class.error]="verificationStatus() === 'error'"
+              [class.success]="verificationStatus() === 'success'"
+              autocomplete="off"
+            >
+          }
+        </div>
+        
+        <div class="verification-message" [class]="verificationStatus()">
+          @if (getVerificationMessage()) {
+            <span class="message-icon">
+              @switch (verificationStatus()) {
+                @case ('verifying') {
+                  ⏳
+                }
+                @case ('success') {
+                  ✅
+                }
+                @case ('error') {
+                  ❌
+                }
+              }
+            </span>
+            <span class="message-text">{{ getVerificationMessage() }}</span>
+          }
+        </div>
+      </div>
+
+      <div class="timer-section">
+        @if (timerActive()) {
+          <div class="timer-display">
+            <span class="timer-icon">⏰</span>
+            <span class="timer-text">Renvoyer le code dans {{ formatTime(timeLeft()) }}</span>
+          </div>
+        } @else {
+          <button class="resend-btn" (click)="resendOtp()" [disabled]="isResending()">
+            <span *ngIf="!isResending()">📤 Renvoyer le code</span>
+            <span *ngIf="isResending()">Envoi en cours...</span>
+          </button>
+        }
+      </div>
+
+      <div class="help-section">
+        <h3>Besoin d'aide?</h3>
+        <div class="help-options">
+          <div class="help-item">
+            <span class="help-icon">📞</span>
+            <div class="help-content">
+              <h4>Numéro incorrect?</h4>
+              <p>Contactez notre support pour mettre à jour votre numéro</p>
+            </div>
+          </div>
+          <div class="help-item">
+            <span class="help-icon">⏱️</span>
+            <div class="help-content">
+              <h4>Code non reçu?</h4>
+              <p>Vérifiez votre réseau et attendez quelques minutes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="manual-verify-section">
+        <h3>Verification alternative</h3>
+        <p>Si vous ne recevez pas le code, vous pouvez utiliser une autre méthode de vérification</p>
+        <button class="alternative-btn">📧 Vérifier par email</button>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-secondary" (click)="goToPreviousStep()">
+        ← Précédent
+      </button>
+      <button class="btn-primary" (click)="verifyOtp()" [disabled]="isVerifying() || otpCode().join('').length !== 6">
+        <span *ngIf="!isVerifying()">Vérifier →</span>
+        <span *ngIf="isVerifying()">Vérification...</span>
+      </button>
+    </div>
+  </main>
+</div>

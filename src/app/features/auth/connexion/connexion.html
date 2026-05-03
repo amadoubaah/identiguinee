@@ -1,0 +1,58 @@
+<app-navbar></app-navbar>
+
+<section class="auth-container">
+  <div class="auth-card">
+    <div class="auth-header">
+      <h2>Connexion</h2>
+      <p>Accédez à votre espace IdentiGuinée</p>
+    </div>
+
+    <form class="auth-form" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input 
+          type="email" 
+          id="email" 
+          name="email" 
+          [(ngModel)]="email"
+          placeholder="votre@email.com"
+          required
+        >
+      </div>
+
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input 
+          type="password" 
+          id="password" 
+          name="password" 
+          [(ngModel)]="password"
+          placeholder="••••••••"
+          required
+        >
+      </div>
+
+      <div class="form-options">
+        <label class="checkbox">
+          <input type="checkbox">
+          <span>Se souvenir de moi</span>
+        </label>
+        <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+      </div>
+
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+
+      <button type="submit" class="auth-btn" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Se connecter</span>
+        <span *ngIf="isLoading">Connexion en cours...</span>
+      </button>
+    </form>
+
+    <div class="auth-footer">
+      <p>Nouveau sur IdentiGuinée ?</p>
+      <button class="link-btn" (click)="goToInscription()">Créer un compte</button>
+    </div>
+  </div>
+</section>
