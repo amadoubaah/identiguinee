@@ -7,8 +7,7 @@ import { VerificationService } from '../../../shared/services/verification.servi
 interface RendezvousData {
   date: string;
   time: string;
-  center: {
-    id: string;
+  center: {id: string;
     name: string;
     address: string;
     capacity: number;
