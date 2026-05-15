@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DemandeService } from '../demande.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-etape4-rendezvous',
@@ -28,7 +29,8 @@ export class Etape4Rendezvous {
   
   constructor(
     private demandeService: DemandeService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   // Calendar Methods
@@ -156,7 +158,7 @@ export class Etape4Rendezvous {
       this.router.navigate(['/demande/confirmation']);
     } catch (error) {
       console.error('Erreur lors de la soumission:', error);
-      alert('Une erreur est survenue. Veuillez réessayer.');
+      this.notificationService.error('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       this.isSubmitting.set(false);
     }

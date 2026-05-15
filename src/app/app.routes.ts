@@ -80,5 +80,17 @@ export const routes: Routes = [
   {
     path: 'contact',
     loadComponent: () => import('./features/contact/contact').then(m => m.Contact)
+  },
+  {
+    path: 'verification',
+    loadComponent: () => import('./features/third-party-verification/third-party-verification.component').then(m => m.ThirdPartyVerificationComponent)
+  },
+  {
+    path: 'verifier',
+    loadComponent: () => import('./features/verifier/verifier/verifier').then(m => m.VerifierComponent)
+  },
+  {
+    path: 'admin',
+    loadComponent: () => import('./features/admin/admin.component').then(m => m.AdminComponent)
   }
 ];

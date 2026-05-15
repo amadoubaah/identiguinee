@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DemandeService } from '../demande.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-etape1-identite',
@@ -35,7 +36,8 @@ export class Etape1IdentiteComponent {
 
   constructor(
     private demandeService: DemandeService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   updateField(field: string, value: string) {
@@ -89,7 +91,7 @@ export class Etape1IdentiteComponent {
       this.router.navigate(['/demande/etape2-documents']);
     } catch (error) {
       console.error('Erreur lors de la soumission:', error);
-      alert('Une erreur est survenue. Veuillez réessayer.');
+      this.notificationService.error('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       this.isSubmitting.set(false);
     }

@@ -1,0 +1,317 @@
+<div class="admin-container">
+  <header class="admin-header">
+    <div class="header-content">
+      <h1>
+        <span class="icon">🏛️</span>
+        Portail Administration
+      </h1>
+      <p class="subtitle">Dashboard de gestion IdentiGuinée</p>
+    </div>
+    <div class="header-actions">
+      <select class="period-selector" [(ngModel)]="selectedPeriod" (change)="changePeriod(selectedPeriod)">
+        <option value="24h">24 heures</option>
+        <option value="7d">7 jours</option>
+        <option value="30d">30 jours</option>
+        <option value="90d">90 jours</option>
+      </select>
+      <button class="export-btn" (click)="exportReport()">
+        <span class="icon">📊</span>
+        Exporter rapport
+      </button>
+      <button class="verification-btn" (click)="goToVerification()">
+        <span class="icon">🔍</span>
+        Vérification
+      </button>
+    </div>
+  </header>
+
+  <div class="main-content" *ngIf="!isLoading; else loadingTemplate">
+    <!-- KPIs principaux -->
+    <div class="kpi-grid">
+      <div class="kpi-card primary">
+        <div class="kpi-header">
+          <span class="kpi-icon">📄</span>
+          <h3>Documents traités</h3>
+        </div>
+        <div class="kpi-value">{{ dashboardStats.totalDocuments.toLocaleString('fr-FR') }}</div>
+        <div class="kpi-change positive">
+          <span class="icon">📈</span>
+          +23.5% ce mois
+        </div>
+      </div>
+
+      <div class="kpi-card success">
+        <div class="kpi-header">
+          <span class="kpi-icon">✅</span>
+          <h3>Vérifications réussies</h3>
+        </div>
+        <div class="kpi-value">{{ dashboardStats.verifiedDocuments.toLocaleString('fr-FR') }}</div>
+        <div class="kpi-change positive">
+          <span class="icon">📈</span>
+          {{ ((dashboardStats.verifiedDocuments / dashboardStats.totalDocuments) * 100).toFixed(1) }}% de succès
+        </div>
+      </div>
+
+      <div class="kpi-card warning">
+        <div class="kpi-header">
+          <span class="kpi-icon">🚫</span>
+          <h3>Fraudes détectées</h3>
+        </div>
+        <div class="kpi-value">{{ dashboardStats.fraudulentDocuments }}</div>
+        <div class="kpi-change negative">
+          <span class="icon">📉</span>
+          {{ economicImpact.fraudDetectionRate }}% de détection
+        </div>
+      </div>
+
+      <div class="kpi-card info">
+        <div class="kpi-header">
+          <span class="kpi-icon">⚡</span>
+          <h3>Temps moyen</h3>
+        </div>
+        <div class="kpi-value">{{ dashboardStats.avgProcessingTime.toFixed(1) }}s</div>
+        <div class="kpi-change positive">
+          <span class="icon">✨</span>
+          Objectif: 3s atteint
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact économique -->
+    <div class="impact-section">
+      <h2>
+        <span class="icon">💰</span>
+        Impact Économique (Données Réelles Guinée)
+      </h2>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="impact-icon">💵</div>
+          <div class="impact-content">
+            <h3>{{ calculateRealImpactMetrics().economiesTotales }}</h3>
+            <p>Économies totales</p>
+            <span class="trend positive">Basé sur {{ calculateRealImpactMetrics().coutMoyenPotDeVin }}/pot-de-vin</span>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">🚫</div>
+          <div class="impact-content">
+            <h3>{{ calculateRealImpactMetrics().potsDeVinEvites }}</h3>
+            <p>Pots-de-vin évités</p>
+            <span class="trend positive">Taux corruption: {{ calculateRealImpactMetrics().tauxCorruption }}</span>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">👥</div>
+          <div class="impact-content">
+            <h3>{{ calculateRealImpactMetrics().demandesTraiteesSansIntermediaire }}</h3>
+            <p>Demandes sans intermédiaire</p>
+            <span class="trend positive">{{ calculateRealImpactMetrics().populationServie }} de la population servie</span>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">⚡</div>
+          <div class="impact-content">
+            <h3>{{ calculateRealImpactMetrics().tempsMoyenVerification }}</h3>
+            <p>Temps moyen vérification</p>
+            <span class="trend positive">Objectif: &lt; 3 secondes ✅</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Projection annuelle -->
+    <div class="impact-section">
+      <h2>
+        <span class="icon">📈</span>
+        Projection Annuelle
+      </h2>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="impact-icon">📄</div>
+          <div class="impact-content">
+            <h3>{{ calculateRealImpactMetrics().projectionAnnuelle.demandes }}</h3>
+            <p>Demandes projetées/an</p>
+            <span class="trend positive">Croissance soutenue</span>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">🚫</div>
+          <div class="impact-content">
+            <h3>{{ calculateRealImpactMetrics().projectionAnnuelle.potsDeVinEvites }}</h3>
+            <p>Pots-de-vin évités/an</p>
+            <span class="trend positive">Impact social majeur</span>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">💰</div>
+          <div class="impact-content">
+            <h3>{{ calculateRealImpactMetrics().projectionAnnuelle.economies }}</h3>
+            <p>Économies projetées/an</p>
+            <span class="trend positive">Transformation économique</span>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">📊</div>
+          <div class="impact-content">
+            <h3>{{ calculateROI().roi }}</h3>
+            <p>ROI annuel</p>
+            <span class="trend positive">Rentabilité en {{ calculateROI().paybackPeriod }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Système et activités -->
+    <div class="dashboard-grid">
+      <!-- Activités récentes -->
+      <div class="activity-section">
+        <h2>
+          <span class="icon">📋</span>
+          Activités Récentes
+        </h2>
+        <div class="activity-list">
+          <div class="activity-item" *ngFor="let activity of recentActivities">
+            <div class="activity-icon">
+              <span *ngIf="activity.type === 'verification'">🔍</span>
+              <span *ngIf="activity.type === 'system'">⚙️</span>
+            </div>
+            <div class="activity-content">
+              <div class="activity-header">
+                <span class="activity-type">{{ activity.type === 'verification' ? 'Vérification' : 'Système' }}</span>
+                <span class="activity-time">{{ formatTimeAgo(activity.timestamp) }}</span>
+              </div>
+              <div class="activity-details">
+                <p *ngIf="activity.type === 'verification'">
+                  <strong>{{ activity.user }}</strong> - {{ activity.documentType }}
+                  <span class="status" [class.authentic]="activity.status === 'authentic'" 
+                        [class.fraudulent]="activity.status === 'fraudulent'">
+                    {{ activity.status === 'authentic' ? '✅ Authentique' : '🚫 Frauduleux' }}
+                  </span>
+                </p>
+                <p *ngIf="activity.type === 'system'">
+                  <strong>{{ activity.action }}</strong> - {{ activity.details }}
+                </p>
+              </div>
+              <div class="activity-metrics" *ngIf="activity.processingTime">
+                <span class="metric">
+                  <span class="icon">⏱️</span>
+                  {{ activity.processingTime }}s
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Métriques système -->
+      <div class="metrics-section">
+        <h2>
+          <span class="icon">🖥️</span>
+          Métriques Système
+        </h2>
+        <div class="metrics-grid">
+          <div class="metric-item">
+            <div class="metric-header">
+              <span class="metric-label">CPU</span>
+              <span class="metric-value">{{ systemMetrics.cpu.toFixed(1) }}%</span>
+            </div>
+            <div class="metric-bar">
+              <div class="metric-fill" [style.width.%]="systemMetrics.cpu"></div>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-header">
+              <span class="metric-label">Mémoire</span>
+              <span class="metric-value">{{ systemMetrics.memory.toFixed(1) }}%</span>
+            </div>
+            <div class="metric-bar">
+              <div class="metric-fill" [style.width.%]="systemMetrics.memory"></div>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-header">
+              <span class="metric-label">Stockage</span>
+              <span class="metric-value">{{ systemMetrics.storage.toFixed(1) }}%</span>
+            </div>
+            <div class="metric-bar">
+              <div class="metric-fill" [style.width.%]="systemMetrics.storage"></div>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-header">
+              <span class="metric-label">Réseau</span>
+              <span class="metric-value">{{ systemMetrics.network.toFixed(1) }}%</span>
+            </div>
+            <div class="metric-bar">
+              <div class="metric-fill" [style.width.%]="systemMetrics.network"></div>
+            </div>
+          </div>
+          <div class="metric-item">
+            <div class="metric-header">
+              <span class="metric-label">Blockchain</span>
+              <span class="metric-value">{{ systemMetrics.blockchainSync.toFixed(1) }}%</span>
+            </div>
+            <div class="metric-bar">
+              <div class="metric-fill blockchain" [style.width.%]="systemMetrics.blockchainSync"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Statut système -->
+        <div class="system-status">
+          <div class="status-item">
+            <span class="status-label">Uptime</span>
+            <span class="status-value success">{{ dashboardStats.systemUptime }}</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Transactions</span>
+            <span class="status-value">{{ dashboardStats.blockchainTransactions.toLocaleString('fr-FR') }}</span>
+          </div>
+          <div class="status-item">
+            <span class="status-label">Utilisateurs</span>
+            <span class="status-value">{{ dashboardStats.activeUsers.toLocaleString('fr-FR') }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Analyse des fraudes -->
+    <div class="fraud-section">
+      <h2>
+        <span class="icon">🔍</span>
+        Analyse des Motifs de Fraude
+      </h2>
+      <div class="fraud-grid">
+        <div class="fraud-item" *ngFor="let pattern of fraudPatterns">
+          <div class="fraud-header">
+            <h3>{{ pattern.pattern }}</h3>
+            <span class="severity-badge" [style.background-color]="getSeverityColor(pattern.severity)">
+              {{ pattern.severity.toUpperCase() }}
+            </span>
+          </div>
+          <div class="fraud-stats">
+            <div class="fraud-occurrences">
+              <span class="occurrences-count">{{ pattern.occurrences }}</span>
+              <span class="occurrences-label">occurrences</span>
+            </div>
+            <div class="fraud-trend">
+              <span class="trend-icon">{{ getTrendIcon(pattern.trend) }}</span>
+              <span class="trend-text">{{ pattern.trend === 'stable' ? 'Stable' : pattern.trend === 'up' ? 'En hausse' : 'En baisse' }}</span>
+            </div>
+          </div>
+          <button class="investigate-btn" (click)="investigateFraud(pattern.occurrences)">
+            <span class="icon">🔬</span>
+            Investiguer
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loadingTemplate>
+    <div class="loading-container">
+      <div class="loading-spinner"></div>
+      <p>Chargement du dashboard...</p>
+    </div>
+  </ng-template>
+</div>

@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -11,7 +11,7 @@ import { DemandeService } from '../demande.service';
   templateUrl: './etape3-otp.html',
   styleUrls: ['./etape3-otp.css']
 })
-export class Etape3Otp {
+export class Etape3Otp implements OnDestroy {
   otpCode = signal(['', '', '', '', '', '']);
   isVerifying = signal(false);
   isResending = signal(false);
@@ -19,6 +19,7 @@ export class Etape3Otp {
   phoneNumber = signal('+224 620 123 456');
   timeLeft = signal(120);
   timerActive = signal(false);
+  private timerInterval: any;
 
   constructor(
     private demandeService: DemandeService,
@@ -130,15 +131,22 @@ export class Etape3Otp {
 
   startTimer() {
     this.timerActive.set(true);
-    const interval = setInterval(() => {
+    this.timerInterval = setInterval(() => {
       const current = this.timeLeft();
       if (current <= 0) {
-        clearInterval(interval);
+        clearInterval(this.timerInterval);
         this.timerActive.set(false);
       } else {
         this.timeLeft.set(current - 1);
       }
     }, 1000);
+  }
+
+  ngOnDestroy(): void {
+    // Nettoyage du timer pour éviter les memory leaks
+    if (this.timerInterval) {
+      clearInterval(this.timerInterval);
+    }
   }
 
   formatTime(seconds: number): string {

@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
   selector: 'app-contact',
@@ -10,7 +11,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './contact.css'
 })
 export class Contact {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   // Formulaire de contact
   contactForm = signal({
@@ -65,12 +69,12 @@ export class Contact {
     
     // Validation
     if (!form.name || !form.email || !form.subject || !form.message) {
-      alert('Veuillez remplir tous les champs obligatoires');
+      this.notificationService.warning('Veuillez remplir tous les champs obligatoires');
       return;
     }
 
     if (!this.isValidEmail(form.email)) {
-      alert('Veuillez entrer une adresse email valide');
+      this.notificationService.warning('Veuillez entrer une adresse email valide');
       return;
     }
 
@@ -92,9 +96,9 @@ export class Contact {
         documentType: '',
         documentNumber: ''
       });
-      
+
     } catch (error) {
-      alert('Une erreur est survenue. Veuillez réessayer.');
+      this.notificationService.error('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       this.isSubmitting.set(false);
     }

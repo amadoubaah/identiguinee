@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 interface Dossier {
   id: string;
@@ -106,7 +107,10 @@ export class Suivi {
     }
   ]);
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   // Scanner QR Code
   startQRScan() {
@@ -145,7 +149,7 @@ export class Suivi {
     } else {
       this.selectedDossier.set(null);
       this.showDetails.set(false);
-      alert('Aucun dossier trouvé pour cette recherche');
+      this.notificationService.warning('Aucun dossier trouvé pour cette recherche');
     }
   }
 
@@ -215,7 +219,7 @@ export class Suivi {
     if (dossier.statut === 'approuve' || dossier.statut === 'complet') {
       this.router.navigate(['/telechargement']);
     } else {
-      alert('Le dossier doit être approuvé avant de pouvoir télécharger le document');
+      this.notificationService.warning('Le dossier doit être approuvé avant de pouvoir télécharger le document');
     }
   }
 

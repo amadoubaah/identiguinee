@@ -2,6 +2,7 @@ import { Component, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { NotificationService } from '../../shared/services/notification.service';
 
 @Component({
   selector: 'app-profil',
@@ -10,7 +11,10 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './profil.css'
 })
 export class Profil {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private notificationService: NotificationService
+  ) {}
 
   // Informations utilisateur
   userInfo = signal({
@@ -163,7 +167,7 @@ export class Profil {
   saveProfile() {
     // Simuler la sauvegarde
     this.isEditing.set(false);
-    alert('Profil mis à jour avec succès');
+    this.notificationService.success('Profil mis à jour avec succès');
   }
 
   cancelEdit() {
@@ -178,26 +182,26 @@ export class Profil {
 
   changePassword() {
     const form = this.passwordForm();
-    
+
     if (!form.currentPassword || !form.newPassword || !form.confirmPassword) {
-      alert('Veuillez remplir tous les champs');
+      this.notificationService.warning('Veuillez remplir tous les champs');
       return;
     }
 
     if (form.newPassword !== form.confirmPassword) {
-      alert('Les mots de passe ne correspondent pas');
+      this.notificationService.warning('Les mots de passe ne correspondent pas');
       return;
     }
 
     if (form.newPassword.length < 8) {
-      alert('Le mot de passe doit contenir au moins 8 caractères');
+      this.notificationService.warning('Le mot de passe doit contenir au moins 8 caractères');
       return;
     }
 
     // Simuler le changement de mot de passe
     this.isChangingPassword.set(false);
     this.passwordForm.set({ currentPassword: '', newPassword: '', confirmPassword: '' });
-    alert('Mot de passe changé avec succès');
+    this.notificationService.success('Mot de passe changé avec succès');
   }
 
   // Notifications
@@ -229,7 +233,7 @@ export class Profil {
       const reader = new FileReader();
       reader.onload = (e) => {
         // Ici vous enverriez l'image au serveur
-        alert('Photo téléchargée avec succès');
+        this.notificationService.success('Photo téléchargée avec succès');
       };
       reader.readAsDataURL(file);
     }

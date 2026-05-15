@@ -1,0 +1,205 @@
+<div class="verification-container">
+  <header class="verification-header">
+    <div class="header-content">
+      <h1>
+        <span class="icon">🔍</span>
+        Vérification par les Tiers
+      </h1>
+      <p class="subtitle">Scanner et vérifier l'authenticité des documents en 3 secondes</p>
+    </div>
+    <button class="admin-btn" (click)="goToAdmin()">
+      <span class="icon">⚙️</span>
+      Administration
+    </button>
+  </header>
+
+  <div class="main-content">
+    <!-- Statistiques en temps réel -->
+    <div class="stats-grid">
+      <div class="stat-card verified">
+        <div class="stat-icon">✅</div>
+        <div class="stat-content">
+          <h3>{{ documentStats.verified }}</h3>
+          <p>Documents vérifiés</p>
+        </div>
+      </div>
+      <div class="stat-card fraudulent">
+        <div class="stat-icon">🚫</div>
+        <div class="stat-content">
+          <h3>{{ documentStats.fraudulent }}</h3>
+          <p>Fraudes détectées</p>
+        </div>
+      </div>
+      <div class="stat-card performance">
+        <div class="stat-icon">⚡</div>
+        <div class="stat-content">
+          <h3>{{ documentStats.processingTime.toFixed(1) }}s</h3>
+          <p>Temps moyen</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Zone de scan -->
+    <div class="scan-section">
+      <!-- Entrée manuelle -->
+      <div class="manual-input-section">
+        <h3>Vérification par Code QR ou Hash</h3>
+        <div class="input-group">
+          <input
+            type="text"
+            [(ngModel)]="qrCodeInput"
+            placeholder="Entrez le code QR ou le hash blockchain..."
+            class="qr-input"
+          />
+          <button
+            class="verify-btn"
+            (click)="verifyByQR(qrCodeInput)"
+            [disabled]="isScanning || !qrCodeInput.trim()">
+            Vérifier
+          </button>
+        </div>
+      </div>
+
+      <div class="scan-container" [class.scanning]="isScanning">
+        <div class="scan-area">
+          <div class="camera-placeholder">
+            <span class="camera-icon">📷</span>
+            <p>Positionnez le document dans le cadre</p>
+          </div>
+
+          <!-- Animation de scan -->
+          <div class="scan-line" *ngIf="isScanning"></div>
+
+          <!-- Progression du scan -->
+          <div class="scan-progress" *ngIf="isScanning">
+            <div class="progress-bar">
+              <div class="progress-fill" [style.width.%]="scanProgress"></div>
+            </div>
+            <p>Analyse en cours... {{ scanProgress.toFixed(0) }}%</p>
+          </div>
+        </div>
+
+        <div class="scan-controls">
+          <button
+            class="scan-btn"
+            (click)="startDocumentScan()"
+            [disabled]="isScanning">
+            <span class="icon">{{ isScanning ? '⏳' : '📸' }}</span>
+            {{ isScanning ? 'Scan en cours...' : 'Scanner le document' }}
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Résultats de vérification -->
+    <div class="results-section" *ngIf="scanResult">
+      <div class="result-card" [class.authentic]="scanResult.authentic" [class.fraud]="!scanResult.authentic">
+        <div class="result-header">
+          <h2>
+            <span class="status-icon">{{ scanResult.authentic ? '✅' : '🚫' }}</span>
+            {{ scanResult.authentic ? 'Document Authentique' : 'Document Frauduleux' }}
+          </h2>
+          <div class="verification-badges">
+            <span class="badge blockchain">
+              <span class="icon">⛓️</span>
+              Blockchain vérifiée
+            </span>
+            <span class="badge timing">
+              <span class="icon">⏱️</span>
+              {{ (scanResult.verificationTime / 1000).toFixed(2) }}s
+            </span>
+          </div>
+        </div>
+
+        <div class="result-message">
+          <p>{{ scanResult.message }}</p>
+        </div>
+
+        @if (scanResult.document) {
+          <div class="document-details">
+            <div class="detail-grid">
+              <div class="detail-item">
+                <label>Nom</label>
+                <p>{{ scanResult.document.nom }}</p>
+              </div>
+              <div class="detail-item">
+                <label>Prénom</label>
+                <p>{{ scanResult.document.prenom }}</p>
+              </div>
+              <div class="detail-item">
+                <label>Numéro CNI</label>
+                <p>{{ scanResult.document.numeroCNI }}</p>
+              </div>
+              <div class="detail-item">
+                <label>Date d'émission</label>
+                <p>{{ scanResult.document.dateEmission }}</p>
+              </div>
+              <div class="detail-item">
+                <label>Date d'expiration</label>
+                <p>{{ scanResult.document.dateExpiration }}</p>
+              </div>
+              <div class="detail-item">
+                <label>Lieu d'émission</label>
+                <p>{{ scanResult.document.lieuEmission }}</p>
+              </div>
+              <div class="detail-item">
+                <label>Statut</label>
+                <p [class]="scanResult.document.statut">{{ scanResult.document.statut }}</p>
+              </div>
+              <div class="detail-item full-width">
+                <label>Hash Blockchain</label>
+                <p class="hash">{{ scanResult.document.hashBlockchain }}</p>
+              </div>
+            </div>
+          </div>
+        }
+
+        <div class="result-actions">
+          <button class="secondary-btn" (click)="resetScan()">
+            <span class="icon">🔄</span>
+            Nouveau scan
+          </button>
+          <button class="primary-btn" [disabled]="!scanResult.authentic">
+            <span class="icon">📄</span>
+            Télécharger le rapport
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Impact économique -->
+    <div class="impact-section">
+      <h2>Impact Économique</h2>
+      <div class="impact-grid">
+        <div class="impact-card">
+          <div class="impact-icon">💰</div>
+          <div class="impact-content">
+            <h3>{{ calculateEconomicImpact().bribesAvoided }}</h3>
+            <p>Pots-de-vin évités</p>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">💵</div>
+          <div class="impact-content">
+            <h3>{{ calculateEconomicImpact().totalSavings }}</h3>
+            <p>Économies réalisées</p>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">👥</div>
+          <div class="impact-content">
+            <h3>{{ calculateEconomicImpact().citizensHelped }}</h3>
+            <p>Citoyens aidés</p>
+          </div>
+        </div>
+        <div class="impact-card">
+          <div class="impact-icon">🎯</div>
+          <div class="impact-content">
+            <h3>{{ calculateEconomicImpact().fraudDetectionRate }}</h3>
+            <p>Taux de détection</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

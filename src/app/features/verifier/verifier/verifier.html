@@ -1,0 +1,232 @@
+<div class="verifier-container">
+  <!-- Header -->
+  <div class="verifier-header">
+    <div class="logo">
+      <span class="logo-icon">🇬🇳</span>
+      <span class="logo-text">IdentiGuinée</span>
+    </div>
+    <h1 class="verifier-title">Vérification de Document</h1>
+    <p class="verifier-subtitle">Vérifiez l'authenticité d'un document en moins de 3 secondes</p>
+  </div>
+
+  <!-- Verification Form -->
+  <div class="verifier-form">
+    <!-- Scanner Option -->
+    <div class="scanner-section">
+      <h3>Option 1 — Scanner un QR code</h3>
+      <p class="scanner-subtitle">Utilisez votre caméra pour scanner un QR code</p>
+
+      @if (!isScanning()) {
+        <button class="scanner-btn" (click)="startScanner()" [disabled]="isVerifying() || isProcessingFile()">
+          <span class="btn-icon">📷</span>
+          Activer le scanner
+        </button>
+      } @else {
+        <div class="camera-container">
+          <video id="camera-preview" autoplay playsinline class="camera-preview"></video>
+          <div class="scanner-overlay">
+            <div class="scan-frame"></div>
+            <p class="scan-instruction">Scannez un QR code...</p>
+          </div>
+          <button class="stop-scanner-btn" (click)="stopScanner()">
+            <span class="btn-icon">✕</span>
+            Arrêter le scanner
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="divider">
+      <span>OU</span>
+    </div>
+
+    <!-- File Import Option -->
+    <div class="file-import-section">
+      <h3>Option 2 — Importer un fichier</h3>
+      <p class="file-import-subtitle">Accepte les formats : PDF, JPG, PNG</p>
+
+      <div class="file-input-wrapper">
+        <input
+          type="file"
+          id="fileInput"
+          (change)="onFileSelected($event)"
+          accept=".pdf,.jpg,.jpeg,.png"
+          class="file-input"
+          [disabled]="isVerifying() || isProcessingFile() || isScanning()"
+        />
+        <label for="fileInput" class="file-import-btn">
+          <span class="btn-icon">📁</span>
+          @if (isProcessingFile()) {
+            <span class="spinner"></span>
+            Extraction du QR code...
+          } @else {
+            Importer un document
+          }
+        </label>
+      </div>
+
+      @if (selectedFile()) {
+        <div class="file-info">
+          <span class="file-icon">📄</span>
+          <div class="file-details">
+            <span class="file-name">{{ getFileName() }}</span>
+            <span class="file-size">{{ getFileSize() }}</span>
+          </div>
+          <button class="clear-file-btn" (click)="clearFile()" title="Supprimer le fichier">
+            ✕
+          </button>
+        </div>
+      }
+    </div>
+
+    <div class="divider">
+      <span>OU</span>
+    </div>
+
+    <!-- Manual Input Option -->
+    <div class="input-group">
+      <label for="qrCode">Option 3 — Code QR ou Hash Blockchain</label>
+      <div class="input-wrapper">
+        <input
+          type="text"
+          id="qrCode"
+          [(ngModel)]="qrCodeInput"
+          (paste)="onPaste($event)"
+          placeholder="Collez le code QR ou le hash blockchain..."
+          class="qr-input"
+          [disabled]="isVerifying() || isProcessingFile() || isScanning()"
+        />
+        <button
+          class="verify-btn"
+          (click)="verifyDocument()"
+          [disabled]="isVerifying() || isProcessingFile() || isScanning() || !qrCodeInput().trim()"
+        >
+          @if (isVerifying()) {
+            <span class="spinner"></span>
+            Vérification...
+          } @else {
+            <span class="btn-icon">🔍</span>
+            Vérifier
+          }
+        </button>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <button class="quick-btn" (click)="clearResult()" [disabled]="!showResult()">
+        🗑️ Effacer
+      </button>
+    </div>
+  </div>
+
+  <!-- Verification Result -->
+  @if (showResult() && verificationResult()) {
+    <div class="verification-result" [class]="getVerificationStatusClass()">
+      <div class="result-header">
+        <div class="result-icon">{{ getVerificationIcon() }}</div>
+        <div class="result-status">
+          <h2>{{ verificationResult()!.authentic ? 'AUTHENTIQUE' : 'FRAUDULEUX' }}</h2>
+          <p>{{ getVerificationMessage() }}</p>
+        </div>
+        <div class="result-time">
+          <span class="time-label">Temps de vérification</span>
+          <span class="time-value">{{ verificationTime() }}ms</span>
+        </div>
+      </div>
+
+      @if (verificationResult()!.document) {
+        <div class="document-details">
+          <h3>Informations du Document</h3>
+          
+          <div class="detail-row">
+            <span class="detail-label">Nom complet</span>
+            <span class="detail-value">{{ verificationResult()!.document!.nom }} {{ verificationResult()!.document!.prenom }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Numéro CNI</span>
+            <span class="detail-value">{{ verificationResult()!.document!.numeroCNI }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Date d'émission</span>
+            <span class="detail-value">{{ formatDate(verificationResult()!.document!.dateEmission) }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Date d'expiration</span>
+            <span class="detail-value">{{ formatDate(verificationResult()!.document!.dateExpiration) }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Lieu d'émission</span>
+            <span class="detail-value">{{ verificationResult()!.document!.lieuEmission }}</span>
+          </div>
+
+          <div class="detail-row">
+            <span class="detail-label">Statut</span>
+            <span class="detail-value status-badge" [class]="verificationResult()!.document!.statut">
+              {{ verificationResult()!.document!.statut === 'actif' ? 'Actif' : verificationResult()!.document!.statut === 'expiré' ? 'Expiré' : 'Révoqué' }}
+            </span>
+          </div>
+
+          <div class="detail-row hash-row">
+            <span class="detail-label">Hash Blockchain</span>
+            <div class="hash-wrapper">
+              <span class="detail-value hash-value">{{ truncateHash(verificationResult()!.document!.hashBlockchain) }}</span>
+              <button class="copy-btn" (click)="copyHash(verificationResult()!.document!.hashBlockchain)" title="Copier le hash">
+                📋
+              </button>
+            </div>
+          </div>
+        </div>
+      }
+
+      <div class="result-footer">
+        <div class="blockchain-info">
+          <span class="blockchain-icon">⛓️</span>
+          <span>Vérifié sur NaissanceChain</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Instructions -->
+  <div class="instructions">
+    <h3>Comment vérifier un document ?</h3>
+    <ol>
+      <li>Scannez le code QR du document avec votre smartphone</li>
+      <li>Ou copiez le hash blockchain depuis le document</li>
+      <li>Collez le code dans le champ ci-dessus</li>
+      <li>Cliquez sur "Vérifier" pour obtenir le résultat en moins de 3 secondes</li>
+    </ol>
+  </div>
+
+  <!-- Test Codes -->
+  <div class="test-codes">
+    <h3>Codes de Test</h3>
+    <p>Utilisez ces codes pour tester la vérification :</p>
+    <div class="test-code-list">
+      <div class="test-code-item">
+        <span class="test-code-label">Document authentique (actif):</span>
+        <code class="test-code">GN-CNI-2026-00847</code>
+        <button class="test-copy-btn" (click)="qrCodeInput.set('GN-CNI-2026-00847'); verifyDocument()">Tester</button>
+      </div>
+      <div class="test-code-item">
+        <span class="test-code-label">Document authentique (expiré):</span>
+        <code class="test-code">GN-CNI-2024-00999</code>
+        <button class="test-copy-btn" (click)="qrCodeInput.set('GN-CNI-2024-00999'); verifyDocument()">Tester</button>
+      </div>
+      <div class="test-code-item">
+        <span class="test-code-label">Document révoqué:</span>
+        <code class="test-code">GN-CNI-2026-01111</code>
+        <button class="test-copy-btn" (click)="qrCodeInput.set('GN-CNI-2026-01111'); verifyDocument()">Tester</button>
+      </div>
+      <div class="test-code-item">
+        <span class="test-code-label">Document inexistant:</span>
+        <code class="test-code">GN-CNI-9999-99999</code>
+        <button class="test-copy-btn" (click)="qrCodeInput.set('GN-CNI-9999-99999'); verifyDocument()">Tester</button>
+      </div>
+    </div>
+  </div>
+</div>

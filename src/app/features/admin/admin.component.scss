@@ -1,0 +1,647 @@
+.admin-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a202c 0%, #2d3748 100%);
+  padding: 20px;
+}
+
+.admin-header {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+  .header-content {
+    h1 {
+      margin: 0 0 10px 0;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #2d3748;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+
+      .icon {
+        font-size: 2.5rem;
+      }
+    }
+
+    .subtitle {
+      margin: 0;
+      color: #718096;
+      font-size: 1.1rem;
+    }
+  }
+
+  .header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+
+    .period-selector {
+      padding: 10px 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      background: white;
+      color: #2d3748;
+      font-size: 1rem;
+      cursor: pointer;
+
+      &:focus {
+        outline: none;
+        border-color: #667eea;
+      }
+    }
+
+    .export-btn, .verification-btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.3s ease;
+
+      .icon {
+        font-size: 1.1rem;
+      }
+    }
+
+    .export-btn {
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      color: white;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(72, 187, 120, 0.4);
+      }
+    }
+
+    .verification-btn {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+
+      &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+      }
+    }
+  }
+}
+
+.main-content {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+  margin-bottom: 40px;
+
+  .kpi-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .kpi-header {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 20px;
+
+      .kpi-icon {
+        font-size: 2.5rem;
+        width: 60px;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: #f7fafc;
+      }
+
+      h3 {
+        margin: 0;
+        color: #4a5568;
+        font-size: 1.1rem;
+        font-weight: 600;
+      }
+    }
+
+    .kpi-value {
+      font-size: 3rem;
+      font-weight: 700;
+      color: #2d3748;
+      margin-bottom: 15px;
+      line-height: 1;
+    }
+
+    .kpi-change {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9rem;
+      font-weight: 600;
+
+      &.positive {
+        color: #48bb78;
+      }
+
+      &.negative {
+        color: #f56565;
+      }
+    }
+
+    &.primary .kpi-icon {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    &.success .kpi-icon {
+      background: linear-gradient(135deg, #48bb78, #38a169);
+      color: white;
+    }
+
+    &.warning .kpi-icon {
+      background: linear-gradient(135deg, #ed8936, #dd6b20);
+      color: white;
+    }
+
+    &.info .kpi-icon {
+      background: linear-gradient(135deg, #4299e1, #3182ce);
+      color: white;
+    }
+  }
+}
+
+.impact-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  margin-bottom: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin: 0 0 30px 0;
+    font-size: 2rem;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .icon {
+      font-size: 2rem;
+    }
+  }
+
+  .impact-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+
+    .impact-card {
+      background: linear-gradient(135deg, #f7fafc, #edf2f7);
+      border-radius: 16px;
+      padding: 25px;
+      text-align: center;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .impact-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+      }
+
+      .impact-content {
+        h3 {
+          margin: 0 0 10px 0;
+          font-size: 2.2rem;
+          font-weight: 700;
+          color: #2d3748;
+        }
+
+        p {
+          margin: 0 0 15px 0;
+          color: #718096;
+          font-size: 1.1rem;
+        }
+
+        .trend {
+          display: inline-block;
+          padding: 5px 12px;
+          border-radius: 20px;
+          font-size: 0.9rem;
+          font-weight: 600;
+
+          &.positive {
+            background: #d4f4dd;
+            color: #22543d;
+          }
+        }
+      }
+    }
+  }
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+  margin-bottom: 40px;
+
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.activity-section, .metrics-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin: 0 0 25px 0;
+    font-size: 1.8rem;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    .icon {
+      font-size: 1.8rem;
+    }
+  }
+}
+
+.activity-list {
+  .activity-item {
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid #e2e8f0;
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .activity-icon {
+      font-size: 2rem;
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #f7fafc;
+      flex-shrink: 0;
+    }
+
+    .activity-content {
+      flex: 1;
+
+      .activity-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 8px;
+
+        .activity-type {
+          font-weight: 600;
+          color: #4a5568;
+          text-transform: uppercase;
+          font-size: 0.9rem;
+        }
+
+        .activity-time {
+          color: #718096;
+          font-size: 0.9rem;
+        }
+      }
+
+      .activity-details {
+        margin-bottom: 8px;
+
+        p {
+          margin: 0;
+          color: #2d3748;
+
+          strong {
+            color: #4a5568;
+          }
+
+          .status {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-left: 10px;
+
+            &.authentic {
+              background: #d4f4dd;
+              color: #22543d;
+            }
+
+            &.fraudulent {
+              background: #fed7d7;
+              color: #742a2a;
+            }
+          }
+        }
+      }
+
+      .activity-metrics {
+        .metric {
+          display: inline-flex;
+          align-items: center;
+          gap: 5px;
+          color: #718096;
+          font-size: 0.9rem;
+
+          .icon {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.metrics-grid {
+  margin-bottom: 25px;
+
+  .metric-item {
+    margin-bottom: 20px;
+
+    .metric-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+
+      .metric-label {
+        font-weight: 600;
+        color: #4a5568;
+      }
+
+      .metric-value {
+        font-weight: 700;
+        color: #2d3748;
+      }
+    }
+
+    .metric-bar {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      overflow: hidden;
+
+      .metric-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #667eea, #764ba2);
+        transition: width 0.3s ease;
+
+        &.blockchain {
+          background: linear-gradient(90deg, #48bb78, #38a169);
+        }
+      }
+    }
+  }
+}
+
+.system-status {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+
+  .status-item {
+    background: #f7fafc;
+    padding: 15px;
+    border-radius: 12px;
+    text-align: center;
+
+    .status-label {
+      display: block;
+      color: #718096;
+      font-size: 0.9rem;
+      margin-bottom: 5px;
+    }
+
+    .status-value {
+      font-weight: 700;
+      color: #2d3748;
+      font-size: 1.1rem;
+
+      &.success {
+        color: #48bb78;
+      }
+    }
+  }
+}
+
+.fraud-section {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+
+  h2 {
+    margin: 0 0 30px 0;
+    font-size: 2rem;
+    color: #2d3748;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+
+    .icon {
+      font-size: 2rem;
+    }
+  }
+
+  .fraud-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+
+    .fraud-item {
+      background: linear-gradient(135deg, #fff5f5, #fed7d7);
+      border-radius: 16px;
+      padding: 25px;
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+
+      .fraud-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        h3 {
+          margin: 0;
+          color: #742a2a;
+          font-size: 1.3rem;
+          font-weight: 600;
+        }
+
+        .severity-badge {
+          padding: 6px 12px;
+          border-radius: 20px;
+          color: white;
+          font-size: 0.8rem;
+          font-weight: 700;
+        }
+      }
+
+      .fraud-stats {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+
+        .fraud-occurrences {
+          .occurrences-count {
+            display: block;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #742a2a;
+          }
+
+          .occurrences-label {
+            color: #c53030;
+            font-size: 0.9rem;
+          }
+        }
+
+        .fraud-trend {
+          text-align: right;
+
+          .trend-icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 5px;
+          }
+
+          .trend-text {
+            color: #c53030;
+            font-size: 0.9rem;
+            font-weight: 600;
+          }
+        }
+      }
+
+      .investigate-btn {
+        width: 100%;
+        background: #742a2a;
+        color: white;
+        border: none;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+
+        &:hover {
+          background: #5a2a2a;
+          transform: translateY(-2px);
+        }
+      }
+    }
+  }
+}
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  color: white;
+
+  .loading-spinner {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-top: 4px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    margin: 0;
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 20px;
+
+    .header-actions {
+      flex-direction: column;
+      width: 100%;
+
+      .period-selector, .export-btn, .verification-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  .kpi-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .impact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .system-status {
+    grid-template-columns: 1fr;
+  }
+
+  .fraud-grid {
+    grid-template-columns: 1fr;
+  }
+}

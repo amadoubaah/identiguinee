@@ -20,4 +20,12 @@ export class Accueil {
   consulterDossier() {
     this.router.navigate(['/suivi']);
   }
+
+  lancerScanner() {
+    this.router.navigate(['/verifier']);
+  }
+
+  accederAdmin() {
+    this.router.navigate(['/admin']);
+  }
 }

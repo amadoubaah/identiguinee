@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { DemandeService } from '../demande.service';
+import { NotificationService } from '../../../shared/services/notification.service';
 
 @Component({
   selector: 'app-etape2-documents',
@@ -52,7 +53,8 @@ export class Etape2Documents {
 
   constructor(
     private demandeService: DemandeService,
-    private router: Router
+    private router: Router,
+    private notificationService: NotificationService
   ) {}
 
   onFileUpload(event: Event, documentId: string) {
@@ -62,14 +64,14 @@ export class Etape2Documents {
     if (file) {
       // Validate file size (max 5MB)
       if (file.size > 5 * 1024 * 1024) {
-        alert('Le fichier ne doit pas dépasser 5MB');
+        this.notificationService.warning('Le fichier ne doit pas dépasser 5MB');
         return;
       }
-      
+
       // Validate file type
       const allowedTypes = ['image/jpeg', 'image/png', 'application/pdf'];
       if (!allowedTypes.includes(file.type)) {
-        alert('Seuls les fichiers PDF, JPEG et PNG sont acceptés');
+        this.notificationService.warning('Seuls les fichiers PDF, JPEG et PNG sont acceptés');
         return;
       }
 
@@ -123,9 +125,9 @@ export class Etape2Documents {
   validateForm(): boolean {
     const requiredDocs = this.documents().filter(doc => doc.required);
     const allRequiredUploaded = requiredDocs.every(doc => doc.uploaded);
-    
+
     if (!allRequiredUploaded) {
-      alert('Veuillez télécharger tous les documents obligatoires');
+      this.notificationService.warning('Veuillez télécharger tous les documents obligatoires');
       return false;
     }
     
@@ -157,7 +159,7 @@ export class Etape2Documents {
       this.router.navigate(['/demande/etape3-otp']);
     } catch (error) {
       console.error('Erreur lors de la soumission:', error);
-      alert('Une erreur est survenue. Veuillez réessayer.');
+      this.notificationService.error('Une erreur est survenue. Veuillez réessayer.');
     } finally {
       this.isSubmitting.set(false);
     }
